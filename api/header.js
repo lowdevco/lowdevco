@@ -6,24 +6,24 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-      bg: "#0a0c10",
-      bar: "#12151b",
-      text: "#e6edf3",
-      muted: "#8b949e",
-      dim: "#6e7681",
-      border: "#30363d",
-      accent: "#39d353",
-      aBg: "#0f2a18",
+      bg: "#000000",
+      bar: "#090514",
+      text: "#ffffff",
+      muted: "#c084fc",
+      dim: "#7c3aed",
+      border: "#2d1a47",
+      accent: "#a855f7",
+      aBg: "#2e1065",
     }
     : {
-      bg: "#fcfbf9",
-      bar: "#f5f2eb",
-      text: "#1a1a1a",
-      muted: "#57606a",
-      dim: "#8c959f",
-      border: "#e5e1d8",
-      accent: "#16a34a",
-      aBg: "#dcfce7",
+      bg: "#ffffff",
+      bar: "#faf5ff",
+      text: "#000000",
+      muted: "#6d28d9",
+      dim: "#8b5cf6",
+      border: "#e9d5ff",
+      accent: "#7c3aed",
+      aBg: "#f3e8ff",
     };
 
   const W = 900, H = 196;
@@ -91,7 +91,7 @@ export default async function handler(req) {
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
 <defs>
-  <clipPath id="bc"><rect width="${W}" height="${H}" rx="8"/></clipPath>
+  <clipPath id="bc"><rect x="0" y="0" width="${W}" height="${H + 20}" rx="8"/></clipPath>
   <linearGradient id="typeBarGrad" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0%" stop-color="${c.bg}"/>
     <stop offset="5%" stop-color="${c.bar}"/>
@@ -110,7 +110,7 @@ export default async function handler(req) {
   <text x="72" y="20" font-family="'Courier New', Consolas, monospace" font-size="11" fill="${c.dim}">~/lowdevco — zsh</text>
 
   <text x="${PAD_X}" y="${NAME_Y}" font-family="monospace" font-size="28" font-weight="bold" fill="${c.text}">Muhammad Irfan</text>
-  <text x="${PAD_X}" y="${ROLE_Y}" font-family="'Courier New', Consolas, monospace" font-size="11" font-weight="700" fill="${c.muted}">Full Stack Developer · Python & React · Kerala, India · UTC+5:30</text>
+  <text x="${PAD_X}" y="${ROLE_Y}" font-family="'Courier New', Consolas, monospace" font-size="11" font-weight="700" fill="${c.muted}">Full Stack Developer · Python &amp; React · Kerala, India · UTC+5:30</text>
 
   <rect x="${PAD_X}" y="${BADGE_Y}" width="122" height="18" rx="9" fill="${c.aBg}"/>
   <circle cx="${PAD_X + 13}" cy="${BADGE_Y + 9}" r="3.5" fill="${c.accent}"/>
@@ -125,6 +125,10 @@ export default async function handler(req) {
   ${linesSVG}
 
   <rect x="0" y="0" width="${STRIP_W}" height="${H}" fill="${c.accent}" opacity="0.7"/>
+  
+  <!-- Borders -->
+  <rect y="0" width="${W}" height="1" fill="${c.border}"/>
+  <rect x="${W - 1}" y="0" width="1" height="${H}" fill="${c.border}"/>
 </g>
 </svg>`;
 

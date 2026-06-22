@@ -13,7 +13,6 @@ const FALLBACK = {
 };
 
 const LANG_COLORS = {
-  TypeScript: "#3178c6",
   Python:     "#3572a5",
   CSS:        "#563d7c",
   JavaScript: "#f1e05a",
@@ -50,7 +49,9 @@ async function fetchStats() {
       const lm = {};
       u.repositories.nodes.forEach(r =>
         r.languages.edges.forEach(({ size, node }) => {
-          lm[node.name] = (lm[node.name] || 0) + size;
+          if (node.name.toLowerCase() !== "shell" && node.name.toLowerCase() !== "typescript") {
+            lm[node.name] = (lm[node.name] || 0) + size;
+          }
         })
       );
       const tot = Object.values(lm).reduce((a, b) => a + b, 0);
@@ -82,7 +83,11 @@ async function fetchStats() {
       if (Array.isArray(repos)) {
         stars = repos.reduce((s, r) => s + (r.stargazers_count || 0), 0);
         const lc = {};
-        repos.forEach(r => { if (r.language) lc[r.language] = (lc[r.language] || 0) + 1; });
+        repos.forEach(r => {
+          if (r.language && r.language.toLowerCase() !== "shell" && r.language.toLowerCase() !== "typescript") {
+            lc[r.language] = (lc[r.language] || 0) + 1;
+          }
+        });
         const tot = Object.values(lc).reduce((a, b) => a + b, 0);
         if (tot > 0)
           langs = Object.entries(lc).sort(([, a], [, b]) => b - a).slice(0, 4)
@@ -102,32 +107,32 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-      bg:      "#0a0c10",
-      bg2:     "#0d1015",
-      bg3:     "#12151b",
-      text:    "#e6edf3",
-      muted:   "#8b949e",
-      dim:     "#6e7681",
-      border:  "#30363d",
-      border2: "#21262d",
-      accent:  "#39d353",
-      statVal: "#39d353",
-      tagABg:  "#0d2114", tagAFg: "#39d353",
-      tagBBg:  "#1a1530", tagBFg: "#d2a8ff",
+      bg:      "#000000",
+      bg2:     "#05030a",
+      bg3:     "#090514",
+      text:    "#ffffff",
+      muted:   "#c084fc",
+      dim:     "#7c3aed",
+      border:  "#2d1a47",
+      border2: "#1e1130",
+      accent:  "#a855f7",
+      statVal: "#c084fc",
+      tagABg:  "#2e1065", tagAFg: "#c084fc",
+      tagBBg:  "#1e1130", tagBFg: "#a855f7",
     }
     : {
-      bg:      "#fcfbf9",
-      bg2:     "#f5f2eb",
-      bg3:     "#f0ead6",
-      text:    "#1a1a1a",
-      muted:   "#57606a",
-      dim:     "#8c959f",
-      border:  "#e5e1d8",
-      border2: "#d4cdbc",
-      accent:  "#16a34a",
-      statVal: "#16a34a",
-      tagABg:  "#dcfce7", tagAFg: "#16a34a",
-      tagBBg:  "#f3e8ff", tagBFg: "#7e22ce",
+      bg:      "#ffffff",
+      bg2:     "#faf5ff",
+      bg3:     "#f3e8ff",
+      text:    "#000000",
+      muted:   "#6d28d9",
+      dim:     "#8b5cf6",
+      border:  "#e9d5ff",
+      border2: "#d8b4fe",
+      accent:  "#7c3aed",
+      statVal: "#6d28d9",
+      tagABg:  "#f3e8ff", tagAFg: "#7c3aed",
+      tagBBg:  "#faf5ff", tagBFg: "#6d28d9",
     };
 
   const stats = await fetchStats();
@@ -181,7 +186,6 @@ export default async function handler(req) {
 
   // ── RIGHT: GITHUB STATS CARD ─────────────────────────────────────────────
   const STAT_ROWS = [
-    { label: "Total Stars",     value: stars,   icon: "★" },
     { label: "Commits (2026)",  value: commits, icon: "↑" },
     { label: "Pull Requests",   value: prs,     icon: "⇄" },
     { label: "Issues",          value: issues,  icon: "!" },
@@ -303,6 +307,8 @@ export default async function handler(req) {
   <!-- ── LEFT ACCENT STRIP (visual rhyme anchor — on every card) ────────── -->
   <rect x="0" y="0" width="${STRIP_W}" height="${H}" fill="${c.accent}" opacity="0.7"/>
 
+  <!-- Borders -->
+  <rect x="${W - 1}" y="0" width="1" height="${H}" fill="${c.border}"/>
   <rect y="${H - 1}" width="${W}" height="1" fill="${c.border}"/>
 </g>
 </svg>`;

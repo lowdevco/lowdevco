@@ -102,72 +102,57 @@
   <!-- stat row 0 -->
   <text x="480" y="52"
         font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#39d353">★</text>
-  <text x="496" y="52"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#8b949e">Total Stars</text>
-  <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
-  <text x="876" y="52" text-anchor="end"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353"
-        filter="url(#numGlow)">12</text>
-  <text x="876" y="52" text-anchor="end"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353">12</text>
-  <!-- stat row 1 -->
-  <text x="480" y="98"
-        font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#39d353">↑</text>
-  <text x="496" y="98"
+  <text x="496" y="52"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#8b949e">Commits (2026)</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
-  <text x="876" y="98" text-anchor="end"
+  <text x="876" y="52" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="#39d353"
         filter="url(#numGlow)">125</text>
-  <text x="876" y="98" text-anchor="end"
+  <text x="876" y="52" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="#39d353">125</text>
-  <!-- stat row 2 -->
-  <text x="480" y="144"
+  <!-- stat row 1 -->
+  <text x="480" y="98"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#39d353">⇄</text>
-  <text x="496" y="144"
+  <text x="496" y="98"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#8b949e">Pull Requests</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
-  <text x="876" y="144" text-anchor="end"
+  <text x="876" y="98" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="#39d353"
         filter="url(#numGlow)">2</text>
-  <text x="876" y="144" text-anchor="end"
+  <text x="876" y="98" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="#39d353">2</text>
-  <!-- stat row 3 -->
-  <text x="480" y="190"
+  <!-- stat row 2 -->
+  <text x="480" y="144"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#39d353">!</text>
-  <text x="496" y="190"
+  <text x="496" y="144"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#8b949e">Issues</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
-  <text x="876" y="190" text-anchor="end"
+  <text x="876" y="144" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="#39d353"
         filter="url(#numGlow)">0</text>
-  <text x="876" y="190" text-anchor="end"
+  <text x="876" y="144" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="#39d353">0</text>
   
-  <rect x="690" y="232" width="88" height="20" rx="10"
+  <rect x="690" y="186" width="88" height="20" rx="10"
         fill="#0d2114" stroke="#30363d" stroke-width="0.5"/>
-  <text x="734" y="245" text-anchor="middle"
+  <text x="734" y="199" text-anchor="middle"
         font-family="'Courier New',Consolas,monospace"
         font-size="9.5" font-weight="700" fill="#39d353">Full Stack</text>
-  <rect x="788" y="232" width="88" height="20" rx="10"
+  <rect x="788" y="186" width="88" height="20" rx="10"
         fill="#1a1530" stroke="#30363d" stroke-width="0.5"/>
-  <text x="832" y="245" text-anchor="middle"
+  <text x="832" y="199" text-anchor="middle"
         font-family="'Courier New',Consolas,monospace"
         font-size="9.5" font-weight="700" fill="#d2a8ff">IST · IN</text>
 

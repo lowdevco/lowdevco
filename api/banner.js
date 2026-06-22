@@ -4,8 +4,8 @@ export default async function handler(req) {
   const dark = new URL(req.url).searchParams.get("theme") !== "light";
 
   const c = dark
-    ? { bg: "#0a0c10", border: "#30363d", accent: "#39d353", text: "#e6edf3", dim: "#6e7681", boxBg: "#12151b" }
-    : { bg: "#fcfbf9", border: "#e5e1d8", accent: "#16a34a", text: "#1a1a1a", dim: "#8c959f", boxBg: "#f5f2eb" };
+    ? { bg: "#000000", border: "#2e1a47", accent: "#a855f7", text: "#ffffff", dim: "#9333ea", boxBg: "#090514" }
+    : { bg: "#ffffff", border: "#e9d5ff", accent: "#7c3aed", text: "#000000", dim: "#6d28d9", boxBg: "#faf5ff" };
 
   const W = 900, H = 44;
   const STRIP_W = 3;

@@ -10,7 +10,6 @@ const USERNAME = "lowdevco";
 
 // Canonical language → display color mapping
 const LANG_META = {
-  TypeScript:  { color: "#3178c6", short: "TS"  },
   Python:      { color: "#3572a5", short: "PY"  },
   JavaScript:  { color: "#f1e05a", short: "JS"  },
   CSS:         { color: "#8b5cf6", short: "CSS" },
@@ -70,7 +69,9 @@ async function fetchLiveData() {
       const lm = {};
       u.repositories.nodes.forEach(r =>
         r.languages.edges.forEach(({ size, node }) => {
-          lm[node.name] = (lm[node.name] || 0) + size;
+          if (node.name.toLowerCase() !== "shell" && node.name.toLowerCase() !== "typescript") {
+            lm[node.name] = (lm[node.name] || 0) + size;
+          }
         })
       );
 
@@ -134,7 +135,9 @@ async function fetchLiveData() {
       results.forEach(r => {
         if (r.status === "fulfilled") {
           Object.entries(r.value).forEach(([lang, bytes]) => {
-            langMap[lang] = (langMap[lang] || 0) + bytes;
+            if (lang.toLowerCase() !== "shell" && lang.toLowerCase() !== "typescript") {
+              langMap[lang] = (langMap[lang] || 0) + bytes;
+            }
           });
         }
       });
@@ -188,41 +191,41 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-        bg:       "#0a0c10",
-        bgPanel:  "#0d1015",
-        bgCard:   "#12151b",
-        text:     "#e6edf3",
-        muted:    "#8b949e",
-        dim:      "#6e7681",
-        border:   "#30363d",
-        border2:  "#21262d",
-        accent:   "#39d353",
-        accentD:  "#238636",
-        mid:      "#79c0ff",
-        cyan:     "#56d4dd",
-        tagBg:    "#12151b",
-        tagText:  "#8b949e",
-        tagBdr:   "#30363d",
-        statBg:   "#0d1015",
+        bg:       "#000000",
+        bgPanel:  "#05030a",
+        bgCard:   "#090514",
+        text:     "#ffffff",
+        muted:    "#c084fc",
+        dim:      "#7c3aed",
+        border:   "#2d1a47",
+        border2:  "#1e1130",
+        accent:   "#a855f7",
+        accentD:  "#7c3aed",
+        mid:      "#c084fc",
+        cyan:     "#e9d5ff",
+        tagBg:    "#090514",
+        tagText:  "#c084fc",
+        tagBdr:   "#2d1a47",
+        statBg:   "#05030a",
         shimmer:  "0.11",
       }
     : {
-        bg:       "#fcfbf9",
-        bgPanel:  "#f5f2eb",
-        bgCard:   "#f0ead6",
-        text:     "#1a1a1a",
-        muted:    "#57606a",
-        dim:      "#8c959f",
-        border:   "#e5e1d8",
-        border2:  "#d4cdbc",
-        accent:   "#16a34a",
-        accentD:  "#15803d",
-        mid:      "#0550ae",
-        cyan:     "#0891b2",
-        tagBg:    "#f5f2eb",
-        tagText:  "#57606a",
-        tagBdr:   "#e5e1d8",
-        statBg:   "#f0ead6",
+        bg:       "#ffffff",
+        bgPanel:  "#faf5ff",
+        bgCard:   "#f3e8ff",
+        text:     "#000000",
+        muted:    "#6d28d9",
+        dim:      "#8b5cf6",
+        border:   "#e9d5ff",
+        border2:  "#d8b4fe",
+        accent:   "#7c3aed",
+        accentD:  "#5b21b6",
+        mid:      "#6d28d9",
+        cyan:     "#a78bfa",
+        tagBg:    "#faf5ff",
+        tagText:  "#6d28d9",
+        tagBdr:   "#e9d5ff",
+        statBg:   "#faf5ff",
         shimmer:  "0.30",
       };
 

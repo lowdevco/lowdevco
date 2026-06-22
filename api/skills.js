@@ -4,7 +4,6 @@ const USERNAME = "lowdevco";
 
 // ── Language Aesthetics Map ──────────────────────────────────────────────────
 const LANG_META = {
-  TypeScript:  { color: "#3178c6" },
   Python:      { color: "#3572a5" },
   JavaScript:  { color: "#f1e05a" },
   CSS:         { color: "#8b5cf6" },
@@ -55,7 +54,9 @@ async function fetchEngineData() {
     languagesData.forEach(result => {
       if (result.status === "fulfilled") {
         Object.entries(result.value).forEach(([lang, bytes]) => {
-          langMap[lang] = (langMap[lang] || 0) + bytes;
+          if (lang.toLowerCase() !== "shell" && lang.toLowerCase() !== "typescript") {
+            langMap[lang] = (langMap[lang] || 0) + bytes;
+          }
         });
       }
     });
@@ -91,29 +92,29 @@ export default async function handler(req) {
 
   const c = dark
     ? {
-        bg:      "#0a0c10",
-        text:    "#e6edf3",
-        muted:   "#8b949e",
-        dim:     "#6e7681",
-        border:  "#30363d",
-        border2: "#21262d",
-        accent:  "#39d353",
-        tagBg:   "#12151b",
-        tagText: "#8b949e",
-        tagBdr:  "#30363d",
+        bg:      "#000000",
+        text:    "#ffffff",
+        muted:   "#c084fc",
+        dim:     "#7c3aed",
+        border:  "#2d1a47",
+        border2: "#1e1130",
+        accent:  "#a855f7",
+        tagBg:   "#090514",
+        tagText: "#c084fc",
+        tagBdr:  "#2d1a47",
         shimmer: "0.12"
       }
     : {
-        bg:      "#fcfbf9",
-        text:    "#1a1a1a",
-        muted:   "#57606a",
-        dim:     "#8c959f",
-        border:  "#e5e1d8",
-        border2: "#d4cdbc",
-        accent:  "#16a34a",
-        tagBg:   "#f5f2eb",
-        tagText: "#57606a",
-        tagBdr:  "#e5e1d8",
+        bg:      "#ffffff",
+        text:    "#000000",
+        muted:   "#6d28d9",
+        dim:     "#8b5cf6",
+        border:  "#e9d5ff",
+        border2: "#d8b4fe",
+        accent:  "#7c3aed",
+        tagBg:   "#faf5ff",
+        tagText: "#6d28d9",
+        tagBdr:  "#e9d5ff",
         shimmer: "0.35"
       };
 
@@ -239,6 +240,9 @@ export default async function handler(req) {
   ${badgesSVG}
 
   <rect x="0" y="0" width="${STRIP_W}" height="${FINAL_H}" fill="${c.accent}" opacity="0.7"/>
+  
+  <!-- Borders -->
+  <rect x="${W - 1}" y="0" width="1" height="${FINAL_H}" fill="${c.border}"/>
   <rect y="${FINAL_H - 1}" width="${W}" height="1" fill="${c.border}"/>
 </g>
 </svg>`, {

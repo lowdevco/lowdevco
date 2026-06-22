@@ -6,28 +6,28 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-      bg: "#0a0c10",
-      bar: "#12151b",
-      text: "#e6edf3",
-      muted: "#8b949e",
-      dim: "#6e7681",
-      border: "#30363d",
-      accent: "#39d353",
-      linkBg: "#12151b",
-      linkText: "#8b949e",
-      linkBorder: "#30363d",
+      bg: "#000000",
+      bar: "#090514",
+      text: "#ffffff",
+      muted: "#c084fc",
+      dim: "#7c3aed",
+      border: "#2d1a47",
+      accent: "#a855f7",
+      linkBg: "#090514",
+      linkText: "#c084fc",
+      linkBorder: "#2d1a47",
     }
     : {
-      bg: "#fcfbf9",
-      bar: "#f5f2eb",
-      text: "#1a1a1a",
-      muted: "#57606a",
-      dim: "#8c959f",
-      border: "#e5e1d8",
-      accent: "#16a34a",
-      linkBg: "#f5f2eb",
-      linkText: "#57606a",
-      linkBorder: "#e5e1d8",
+      bg: "#ffffff",
+      bar: "#faf5ff",
+      text: "#000000",
+      muted: "#6d28d9",
+      dim: "#8b5cf6",
+      border: "#e9d5ff",
+      accent: "#7c3aed",
+      linkBg: "#faf5ff",
+      linkText: "#6d28d9",
+      linkBorder: "#e9d5ff",
     };
 
   const W = 900;
@@ -71,7 +71,7 @@ export default async function handler(req) {
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
 <defs>
-  <clipPath id="fc"><rect width="${W}" height="${H}" rx="8"/></clipPath>
+  <clipPath id="fc"><rect x="0" y="-20" width="${W}" height="${H + 20}" rx="8"/></clipPath>
   <!-- Gradient on title bar: solid left → fades to bg right (depth — mirrors header) -->
   <linearGradient id="fBarGrad" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0%"   stop-color="${c.bar}"/>
