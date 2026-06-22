@@ -3,27 +3,34 @@ export const config = { runtime: "edge" };
 const USERNAME = "lowdevco";
 
 const FALLBACK = {
-  stars: 0, commits: 15, prs: 2, issues: 0,
+  stars: 0,
+  commits: 15,
+  prs: 2,
+  issues: 0,
   langs: [
-    { name: "Python",     pct: 55 },
+    { name: "Python", pct: 55 },
     { name: "JavaScript", pct: 25 },
-    { name: "HTML",       pct: 12 },
-    { name: "CSS",        pct:  8 },
+    { name: "HTML", pct: 12 },
+    { name: "CSS", pct: 8 },
   ],
 };
 
 const LANG_COLORS = {
-  Python:     "#3572a5",
-  CSS:        "#563d7c",
+  Python: "#3572a5",
+  CSS: "#563d7c",
   JavaScript: "#f1e05a",
-  HTML:       "#e34c26",
-  Shell:      "#89e051",
-  default:    "#8b949e",
+  HTML: "#e34c26",
+  Shell: "#89e051",
+  default: "#8b949e",
 };
 
 async function fetchStats() {
-  const token = typeof process !== "undefined" ? process.env.GITHUB_TOKEN : undefined;
-  const base = { "User-Agent": "lowdevco-readme/2.0", Accept: "application/vnd.github.v3+json" };
+  const token =
+    typeof process !== "undefined" ? process.env.GITHUB_TOKEN : undefined;
+  const base = {
+    "User-Agent": "lowdevco-readme/2.0",
+    Accept: "application/vnd.github.v3+json",
+  };
   const hdrs = token ? { ...base, Authorization: `Bearer ${token}` } : base;
 
   // ── GraphQL (authenticated) ────────────────────────────────────────────────
@@ -45,36 +52,62 @@ async function fetchStats() {
       });
       const { data } = await res.json();
       const u = data.user;
-      const stars = u.repositories.nodes.reduce((s, r) => s + r.stargazerCount, 0);
+      const stars = u.repositories.nodes.reduce(
+        (s, r) => s + r.stargazerCount,
+        0,
+      );
       const lm = {};
-      u.repositories.nodes.forEach(r =>
+      u.repositories.nodes.forEach((r) =>
         r.languages.edges.forEach(({ size, node }) => {
-          if (node.name.toLowerCase() !== "shell" && node.name.toLowerCase() !== "typescript") {
+          if (
+            node.name.toLowerCase() !== "shell" &&
+            node.name.toLowerCase() !== "typescript"
+          ) {
             lm[node.name] = (lm[node.name] || 0) + size;
           }
-        })
+        }),
       );
       const tot = Object.values(lm).reduce((a, b) => a + b, 0);
-      const langs = Object.entries(lm).sort(([, a], [, b]) => b - a).slice(0, 4)
+      const langs = Object.entries(lm)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 4)
         .map(([name, b]) => ({ name, pct: Math.round((b / tot) * 100) }));
       return {
-        stars, langs,
+        stars,
+        langs,
         commits: u.contributionsCollection.totalCommitContributions,
-        prs:     u.contributionsCollection.totalPullRequestContributions,
-        issues:  u.contributionsCollection.totalIssueContributions,
+        prs: u.contributionsCollection.totalPullRequestContributions,
+        issues: u.contributionsCollection.totalIssueContributions,
       };
-    } catch { /* fall through to REST */ }
+    } catch {
+      /* fall through to REST */
+    }
   }
 
   // ── REST (unauthenticated) ─────────────────────────────────────────────────
   try {
     const [rR, pR, iR, cR] = await Promise.allSettled([
-      fetch(`https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner`, { headers: hdrs }),
-      fetch(`https://api.github.com/search/issues?q=author:${USERNAME}+type:pr&per_page=1`, { headers: hdrs }),
-      fetch(`https://api.github.com/search/issues?q=author:${USERNAME}+type:issue&per_page=1`, { headers: hdrs }),
-      fetch(`https://api.github.com/search/commits?q=author:${USERNAME}+committer-date:2026-01-01..2026-12-31&per_page=1`, {
-        headers: { ...hdrs, Accept: "application/vnd.github.cloak-preview+json" },
-      }),
+      fetch(
+        `https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner`,
+        { headers: hdrs },
+      ),
+      fetch(
+        `https://api.github.com/search/issues?q=author:${USERNAME}+type:pr&per_page=1`,
+        { headers: hdrs },
+      ),
+      fetch(
+        `https://api.github.com/search/issues?q=author:${USERNAME}+type:issue&per_page=1`,
+        { headers: hdrs },
+      ),
+      fetch(
+        `https://api.github.com/search/commits?q=author:${USERNAME}+committer-date:2026-01-01..2026-12-31&per_page=1`,
+        {
+          headers: {
+            ...hdrs,
+            Accept: "application/vnd.github.cloak-preview+json",
+          },
+        },
+      ),
     ]);
     let { stars, langs, prs, issues, commits } = FALLBACK;
 
@@ -83,22 +116,42 @@ async function fetchStats() {
       if (Array.isArray(repos)) {
         stars = repos.reduce((s, r) => s + (r.stargazers_count || 0), 0);
         const lc = {};
-        repos.forEach(r => {
-          if (r.language && r.language.toLowerCase() !== "shell" && r.language.toLowerCase() !== "typescript") {
+        repos.forEach((r) => {
+          if (
+            r.language &&
+            r.language.toLowerCase() !== "shell" &&
+            r.language.toLowerCase() !== "typescript"
+          ) {
             lc[r.language] = (lc[r.language] || 0) + 1;
           }
         });
         const tot = Object.values(lc).reduce((a, b) => a + b, 0);
         if (tot > 0)
-          langs = Object.entries(lc).sort(([, a], [, b]) => b - a).slice(0, 4)
-            .map(([name, cnt]) => ({ name, pct: Math.round((cnt / tot) * 100) }));
+          langs = Object.entries(lc)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, 4)
+            .map(([name, cnt]) => ({
+              name,
+              pct: Math.round((cnt / tot) * 100),
+            }));
       }
     }
-    if (pR.status === "fulfilled" && pR.value.ok) { const d = await pR.value.json(); prs    = d.total_count ?? prs;    }
-    if (iR.status === "fulfilled" && iR.value.ok) { const d = await iR.value.json(); issues = d.total_count ?? issues; }
-    if (cR.status === "fulfilled" && cR.value.ok) { const d = await cR.value.json(); commits = d.total_count ?? commits; }
+    if (pR.status === "fulfilled" && pR.value.ok) {
+      const d = await pR.value.json();
+      prs = d.total_count ?? prs;
+    }
+    if (iR.status === "fulfilled" && iR.value.ok) {
+      const d = await iR.value.json();
+      issues = d.total_count ?? issues;
+    }
+    if (cR.status === "fulfilled" && cR.value.ok) {
+      const d = await cR.value.json();
+      commits = d.total_count ?? commits;
+    }
     return { stars, commits, prs, issues, langs };
-  } catch { return FALLBACK; }
+  } catch {
+    return FALLBACK;
+  }
 }
 
 export default async function handler(req) {
@@ -107,33 +160,37 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-      bg:      "#000000",
-      bg2:     "#05030a",
-      bg3:     "#090514",
-      text:    "#ffffff",
-      muted:   "#c084fc",
-      dim:     "#7c3aed",
-      border:  "#2d1a47",
-      border2: "#1e1130",
-      accent:  "#a855f7",
-      statVal: "#c084fc",
-      tagABg:  "#2e1065", tagAFg: "#c084fc",
-      tagBBg:  "#1e1130", tagBFg: "#a855f7",
-    }
+        bg: "#000000",
+        bg2: "#05030a",
+        bg3: "#090514",
+        text: "#ffffff",
+        muted: "#c084fc",
+        dim: "#7c3aed",
+        border: "#2d1a47",
+        border2: "#1e1130",
+        accent: "#a855f7",
+        statVal: "#c084fc",
+        tagABg: "#2e1065",
+        tagAFg: "#c084fc",
+        tagBBg: "#1e1130",
+        tagBFg: "#a855f7",
+      }
     : {
-      bg:      "#ffffff",
-      bg2:     "#faf5ff",
-      bg3:     "#f3e8ff",
-      text:    "#000000",
-      muted:   "#6d28d9",
-      dim:     "#8b5cf6",
-      border:  "#e9d5ff",
-      border2: "#d8b4fe",
-      accent:  "#7c3aed",
-      statVal: "#6d28d9",
-      tagABg:  "#f3e8ff", tagAFg: "#7c3aed",
-      tagBBg:  "#faf5ff", tagBFg: "#6d28d9",
-    };
+        bg: "#ffffff",
+        bg2: "#faf5ff",
+        bg3: "#f3e8ff",
+        text: "#000000",
+        muted: "#6d28d9",
+        dim: "#8b5cf6",
+        border: "#e9d5ff",
+        border2: "#d8b4fe",
+        accent: "#7c3aed",
+        statVal: "#6d28d9",
+        tagABg: "#f3e8ff",
+        tagAFg: "#7c3aed",
+        tagBBg: "#faf5ff",
+        tagBFg: "#6d28d9",
+      };
 
   const stats = await fetchStats();
   const { stars, commits, prs, issues, langs } = stats;
@@ -141,8 +198,8 @@ export default async function handler(req) {
   // ── Layout constants ────────────────────────────────────────────────────────
   const W = 900;
   const PAD_X = 24;
-  const STRIP_W = 3;   // left accent strip — visual rhyme anchor
-  const DIVX = 456;    // column split x
+  const STRIP_W = 3; // left accent strip — visual rhyme anchor
+  const DIVX = 456; // column split x
   const L_X = PAD_X;
   const R_X = DIVX + PAD_X;
   const R_END = W - PAD_X;
@@ -153,17 +210,32 @@ export default async function handler(req) {
 
   // ── LEFT: ABOUT ─────────────────────────────────────────────────────────────
   const ABOUT_LINES = [
-    { text: "I build robust web systems from the database up —",   bold: true },
-    { text: "scalability first, clean code always.",               bold: true },
+    { text: "I build robust web systems from the database up —", bold: true },
+    { text: "scalability first, clean code always.", bold: true },
     { text: null },
-    { text: "Python Full Stack Developer based in Kerala, India,", bold: false },
-    { text: "turning complex requirements into elegant solutions.", bold: false },
-    { text: "Specialized in crafting reliable backends using",     bold: false },
-    { text: "Django and building dynamic frontends with React.",    bold: false },
+    {
+      text: "Python Full Stack Developer based in Kerala, India,",
+      bold: false,
+    },
+    {
+      text: "turning complex requirements into elegant solutions.",
+      bold: false,
+    },
+    { text: "Specialized in crafting reliable backends using", bold: false },
+    { text: "Django and building dynamic frontends with React.", bold: false },
     { text: null },
-    { text: "Focused on clean REST APIs, optimized SQL databases,", bold: false },
-    { text: "responsive Tailwind CSS designs, and writing clean,", bold: false },
-    { text: "maintainable code with a strong attention to detail.",bold: false },
+    {
+      text: "Focused on clean REST APIs, optimized SQL databases,",
+      bold: false,
+    },
+    {
+      text: "responsive Tailwind CSS designs, and writing clean,",
+      bold: false,
+    },
+    {
+      text: "maintainable code with a strong attention to detail.",
+      bold: false,
+    },
   ];
 
   const L_H = 15;
@@ -186,9 +258,9 @@ export default async function handler(req) {
 
   // ── RIGHT: GITHUB STATS CARD ─────────────────────────────────────────────
   const STAT_ROWS = [
-    { label: "Commits (2026)",  value: commits, icon: "↑" },
-    { label: "Pull Requests",   value: prs,     icon: "⇄" },
-    { label: "Issues",          value: issues,  icon: "!" },
+    { label: "Commits (2026)", value: commits, icon: "↑" },
+    { label: "Pull Requests", value: prs, icon: "⇄" },
+    { label: "Issues", value: issues, icon: "!" },
   ];
 
   const CARD_X = DIVX;
@@ -209,10 +281,14 @@ export default async function handler(req) {
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="${c.muted}">${label}</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
-  ${dark ? `<text x="${R_END}" y="${ry + 14}" text-anchor="end"
+  ${
+    dark
+      ? `<text x="${R_END}" y="${ry + 14}" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="${c.statVal}"
-        filter="url(#numGlow)">${value}</text>` : ""}
+        filter="url(#numGlow)">${value}</text>`
+      : ""
+  }
   <text x="${R_END}" y="${ry + 14}" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
         font-size="20" font-weight="700" fill="${c.statVal}">${value}</text>`;

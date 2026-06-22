@@ -13,8 +13,8 @@
   <linearGradient id="divGrad" x1="0" y1="0" x2="0" y2="1"
                    gradientUnits="userSpaceOnUse"
                    y1="24" y2="294">
-    <stop offset="0%"   stop-color="#16a34a" stop-opacity="0.6"/>
-    <stop offset="100%" stop-color="#16a34a" stop-opacity="0"/>
+    <stop offset="0%"   stop-color="#7c3aed" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
   </linearGradient>
 </defs>
 <g clip-path="url(#pc)">
@@ -74,11 +74,11 @@
         stroke="#d4cdbc" stroke-width="0.5"/>
 
   <!-- Dot bullet (visual rhyme — same dot used in badge, footer links, legend) -->
-  <circle cx="29" cy="269" r="2.5" fill="#16a34a" opacity="0.75"/>
+  <circle cx="29" cy="269" r="2.5" fill="#7c3aed" opacity="0.75"/>
   <text x="40" y="274"
         font-family="'Courier New',Consolas,monospace" font-size="11" fill="#8c959f">Django · REST APIs · SQL Databases</text>
 
-  <circle cx="29" cy="285" r="2.5" fill="#16a34a" opacity="0.75"/>
+  <circle cx="29" cy="285" r="2.5" fill="#7c3aed" opacity="0.75"/>
   <text x="40" y="290"
         font-family="'Courier New',Consolas,monospace" font-size="11" fill="#8c959f">React · Tailwind CSS · JavaScript · Git</text>
 
@@ -102,7 +102,7 @@
   <!-- stat row 0 -->
   <text x="480" y="52"
         font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#16a34a">↑</text>
+        font-size="10" fill="#7c3aed">↑</text>
   <text x="496" y="52"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#57606a">Commits (2026)</text>
@@ -110,11 +110,11 @@
   
   <text x="876" y="52" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#16a34a">125</text>
+        font-size="20" font-weight="700" fill="#7c3aed">125</text>
   <!-- stat row 1 -->
   <text x="480" y="98"
         font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#16a34a">⇄</text>
+        font-size="10" fill="#7c3aed">⇄</text>
   <text x="496" y="98"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#57606a">Pull Requests</text>
@@ -122,11 +122,11 @@
   
   <text x="876" y="98" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#16a34a">2</text>
+        font-size="20" font-weight="700" fill="#7c3aed">2</text>
   <!-- stat row 2 -->
   <text x="480" y="144"
         font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#16a34a">!</text>
+        font-size="10" fill="#7c3aed">!</text>
   <text x="496" y="144"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#57606a">Issues</text>
@@ -134,13 +134,13 @@
   
   <text x="876" y="144" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#16a34a">0</text>
+        font-size="20" font-weight="700" fill="#7c3aed">0</text>
   
   <rect x="690" y="186" width="88" height="20" rx="10"
         fill="#dcfce7" stroke="#e5e1d8" stroke-width="0.5"/>
   <text x="734" y="199" text-anchor="middle"
         font-family="'Courier New',Consolas,monospace"
-        font-size="9.5" font-weight="700" fill="#16a34a">Full Stack</text>
+        font-size="9.5" font-weight="700" fill="#7c3aed">Full Stack</text>
   <rect x="788" y="186" width="88" height="20" rx="10"
         fill="#f3e8ff" stroke="#e5e1d8" stroke-width="0.5"/>
   <text x="832" y="199" text-anchor="middle"
@@ -177,7 +177,7 @@
         font-family="'Courier New',Consolas,monospace" font-size="10" fill="#8c959f">25%</text>
 
   <!-- ── LEFT ACCENT STRIP (visual rhyme anchor — on every card) ────────── -->
-  <rect x="0" y="0" width="3" height="418" fill="#16a34a" opacity="0.7"/>
+  <rect x="0" y="0" width="3" height="418" fill="#7c3aed" opacity="0.7"/>
 
   <rect y="417" width="900" height="1" fill="#e5e1d8"/>
 </g>

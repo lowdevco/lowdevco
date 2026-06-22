@@ -33,7 +33,7 @@
 
   <!-- Accent underline under name (depth: makes name feel grounded) -->
   <rect x="28" y="85" width="220" height="2" rx="1"
-        fill="#39d353" opacity="0.35"/>
+        fill="#a855f7" opacity="0.35"/>
 
   <!-- ── ROLE LINE ──────────────────────────────────────────────────────── -->
   <text x="28" y="104"
@@ -50,7 +50,7 @@
         fill="#39d353" letter-spacing="0.5">OPEN FOR WORK</text>
 
   <!-- ── LEFT ACCENT STRIP (visual rhyme anchor — on every card) ────────── -->
-  <rect x="0" y="0" width="3" height="156" fill="#39d353" opacity="0.7"/>
+  <rect x="0" y="0" width="3" height="156" fill="#a855f7" opacity="0.7"/>
 
   <!-- Card border -->
   <rect y="0" width="900" height="1" fill="#30363d"/>

@@ -23,15 +23,4 @@
     <img src="https://lowdevco-self.vercel.app/api/footer?theme=dark" alt="Footer &amp; Links" width="900">
   </picture>
 
-  <br><br>
-
-  <!-- Deploy Banner -->
-  <a href="https://github.com/lowdevco/lowdevco">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://lowdevco-self.vercel.app/api/banner?theme=dark">
-      <source media="(prefers-color-scheme: light)" srcset="https://lowdevco-self.vercel.app/api/banner?theme=light">
-      <img src="https://lowdevco-self.vercel.app/api/banner?theme=dark" alt="Deploy Banner" width="900">
-    </picture>
-  </a>
-
 </div>

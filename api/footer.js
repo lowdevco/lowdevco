@@ -6,38 +6,40 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-      bg: "#000000",
-      bar: "#090514",
-      text: "#ffffff",
-      muted: "#c084fc",
-      dim: "#7c3aed",
-      border: "#2d1a47",
-      accent: "#a855f7",
-      linkBg: "#090514",
-      linkText: "#c084fc",
-      linkBorder: "#2d1a47",
-    }
+        bg: "#000000",
+        bar: "#090514",
+        text: "#ffffff",
+        muted: "#c084fc",
+        dim: "#7c3aed",
+        border: "#2d1a47",
+        accent: "#a855f7",
+        linkBg: "#090514",
+        linkText: "#c084fc",
+        linkBorder: "#2d1a47",
+        ofwColor: "#39d353",
+      }
     : {
-      bg: "#ffffff",
-      bar: "#faf5ff",
-      text: "#000000",
-      muted: "#6d28d9",
-      dim: "#8b5cf6",
-      border: "#e9d5ff",
-      accent: "#7c3aed",
-      linkBg: "#faf5ff",
-      linkText: "#6d28d9",
-      linkBorder: "#e9d5ff",
-    };
+        bg: "#ffffff",
+        bar: "#faf5ff",
+        text: "#000000",
+        muted: "#6d28d9",
+        dim: "#8b5cf6",
+        border: "#e9d5ff",
+        accent: "#7c3aed",
+        linkBg: "#faf5ff",
+        linkText: "#6d28d9",
+        linkBorder: "#e9d5ff",
+        ofwColor: "#16a34a",
+      };
 
   const W = 900;
   const H = 92;
   const PAD_X = 28;
-  const STRIP_W = 3;   // left accent strip — visual rhyme anchor
+  const STRIP_W = 3; // left accent strip — visual rhyme anchor
 
   const LINKS = [
-    { label: "LinkedIn",  url: "https://www.linkedin.com/in/muhammadirfank/" },
-    { label: "GitHub",    url: "https://github.com/lowdevco" },
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/muhammadirfank/" },
+    { label: "GitHub", url: "https://github.com/lowdevco" },
     { label: "Portfolio", url: "https://lowdevco.vercel.app/" },
   ];
 
@@ -46,7 +48,7 @@ export default async function handler(req) {
 
   // Build pill links
   let currentX = PAD_X + STRIP_W + 4;
-  const linkPills = LINKS.map(link => {
+  const linkPills = LINKS.map((link) => {
     // Pill width based on label length, generously padded
     const pW = link.label.length * 7.2 + 30;
     const cx = currentX;
@@ -104,11 +106,11 @@ export default async function handler(req) {
   ${linkPills}
 
   <!-- ── OFW STATUS (pulsing dot — visual rhyme with badge dot in header) -->
-  <circle cx="${OFW_DOT_X}" cy="${TAG_Y + 13}" r="4" fill="${c.accent}" class="ofw-dot"/>
+  <circle cx="${OFW_DOT_X}" cy="${TAG_Y + 13}" r="4" fill="${c.ofwColor}" class="ofw-dot"/>
   <text x="${OFW_DOT_X + 13}" y="${TAG_Y + 17}"
         font-family="'Courier New', Consolas, monospace"
         font-size="10.5" font-weight="700"
-        fill="${c.accent}" letter-spacing="1">OFW</text>
+        fill="${c.ofwColor}" letter-spacing="1">OFW</text>
 
   <!-- ── BRAND NAME (typography rhyme — mirrors hero name in header) ────── -->
   <text x="${BRAND_X}" y="${TAG_Y + 17}" text-anchor="end"

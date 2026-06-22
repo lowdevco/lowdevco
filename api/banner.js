@@ -4,10 +4,25 @@ export default async function handler(req) {
   const dark = new URL(req.url).searchParams.get("theme") !== "light";
 
   const c = dark
-    ? { bg: "#000000", border: "#2e1a47", accent: "#a855f7", text: "#ffffff", dim: "#9333ea", boxBg: "#090514" }
-    : { bg: "#ffffff", border: "#e9d5ff", accent: "#7c3aed", text: "#000000", dim: "#6d28d9", boxBg: "#faf5ff" };
+    ? {
+        bg: "#000000",
+        border: "#2e1a47",
+        accent: "#a855f7",
+        text: "#ffffff",
+        dim: "#9333ea",
+        boxBg: "#090514",
+      }
+    : {
+        bg: "#ffffff",
+        border: "#e9d5ff",
+        accent: "#7c3aed",
+        text: "#000000",
+        dim: "#6d28d9",
+        boxBg: "#faf5ff",
+      };
 
-  const W = 900, H = 44;
+  const W = 900,
+    H = 44;
   const STRIP_W = 3;
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">

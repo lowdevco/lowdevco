@@ -10,33 +10,37 @@ const USERNAME = "lowdevco";
 
 // Canonical language → display color mapping
 const LANG_META = {
-  Python:      { color: "#3572a5", short: "PY"  },
-  JavaScript:  { color: "#f1e05a", short: "JS"  },
-  CSS:         { color: "#8b5cf6", short: "CSS" },
-  HTML:        { color: "#e34c26", short: "HTM" },
-  Shell:       { color: "#89e051", short: "SH"  },
-  Dockerfile:  { color: "#0db7ed", short: "DOK" },
-  MDX:         { color: "#fcb32c", short: "MDX" },
-  default:     { color: "#8b949e", short: "---" },
+  Python: { color: "#3572a5", short: "PY" },
+  JavaScript: { color: "#f1e05a", short: "JS" },
+  CSS: { color: "#8b5cf6", short: "CSS" },
+  HTML: { color: "#e34c26", short: "HTM" },
+  Shell: { color: "#89e051", short: "SH" },
+  Dockerfile: { color: "#0db7ed", short: "DOK" },
+  MDX: { color: "#fcb32c", short: "MDX" },
+  default: { color: "#8b949e", short: "---" },
 };
 
 // Fallback when GitHub API is unavailable
 const FALLBACK_LANGS = [
-  { name: "Python",      bytes: 45000 },
-  { name: "JavaScript",  bytes: 25000 },
-  { name: "HTML",        bytes: 12000 },
-  { name: "CSS",         bytes:  8000 },
+  { name: "Python", bytes: 45000 },
+  { name: "JavaScript", bytes: 25000 },
+  { name: "HTML", bytes: 12000 },
+  { name: "CSS", bytes: 8000 },
 ];
 
-const FALLBACK_REPOS   = 12;
-const FALLBACK_STARS   = 4;
+const FALLBACK_REPOS = 12;
+const FALLBACK_STARS = 4;
 const FALLBACK_COMMITS = 265;
 
 // ── GitHub data fetcher ───────────────────────────────────────────────────────
 async function fetchLiveData() {
-  const token = typeof process !== "undefined" ? process.env.GITHUB_TOKEN : undefined;
-  const base  = { "User-Agent": "lowdevco-readme/3.0", Accept: "application/vnd.github.v3+json" };
-  const hdrs  = token ? { ...base, Authorization: `Bearer ${token}` } : base;
+  const token =
+    typeof process !== "undefined" ? process.env.GITHUB_TOKEN : undefined;
+  const base = {
+    "User-Agent": "lowdevco-readme/3.0",
+    Accept: "application/vnd.github.v3+json",
+  };
+  const hdrs = token ? { ...base, Authorization: `Bearer ${token}` } : base;
 
   // ── GraphQL path (authenticated) ─────────────────────────────────────────
   if (token) {
@@ -57,7 +61,7 @@ async function fetchLiveData() {
       }
     }`;
     try {
-      const res  = await fetch("https://api.github.com/graphql", {
+      const res = await fetch("https://api.github.com/graphql", {
         method: "POST",
         headers: { ...hdrs, "Content-Type": "application/json" },
         body: JSON.stringify({ query: q }),
@@ -67,22 +71,32 @@ async function fetchLiveData() {
 
       // Aggregate language bytes across all repos
       const lm = {};
-      u.repositories.nodes.forEach(r =>
+      u.repositories.nodes.forEach((r) =>
         r.languages.edges.forEach(({ size, node }) => {
-          if (node.name.toLowerCase() !== "shell" && node.name.toLowerCase() !== "typescript") {
+          if (
+            node.name.toLowerCase() !== "shell" &&
+            node.name.toLowerCase() !== "typescript"
+          ) {
             lm[node.name] = (lm[node.name] || 0) + size;
           }
-        })
+        }),
       );
 
       const totalBytes = Object.values(lm).reduce((a, b) => a + b, 0);
-      const stars      = u.repositories.nodes.reduce((s, r) => s + r.stargazerCount, 0);
+      const stars = u.repositories.nodes.reduce(
+        (s, r) => s + r.stargazerCount,
+        0,
+      );
 
       // Top 6 languages by byte count
       const langs = Object.entries(lm)
         .sort(([, a], [, b]) => b - a)
         .slice(0, 6)
-        .map(([name, bytes]) => ({ name, bytes, pct: Math.round((bytes / totalBytes) * 100) }));
+        .map(([name, bytes]) => ({
+          name,
+          bytes,
+          pct: Math.round((bytes / totalBytes) * 100),
+        }));
 
       return {
         langs,
@@ -92,28 +106,38 @@ async function fetchLiveData() {
         totalBytes,
         source: "graphql",
       };
-    } catch { /* fall through */ }
+    } catch {
+      /* fall through */
+    }
   }
 
   // ── REST path (unauthenticated) ───────────────────────────────────────────
   try {
     const [reposRes, commitsRes] = await Promise.allSettled([
-      fetch(`https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner`, { headers: hdrs }),
+      fetch(
+        `https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner`,
+        { headers: hdrs },
+      ),
       fetch(
         `https://api.github.com/search/commits?q=author:${USERNAME}+committer-date:2026-01-01..2026-12-31&per_page=1`,
-        { headers: { ...hdrs, Accept: "application/vnd.github.cloak-preview+json" } }
+        {
+          headers: {
+            ...hdrs,
+            Accept: "application/vnd.github.cloak-preview+json",
+          },
+        },
       ),
     ]);
 
-    let repos      = [];
-    let repoCount  = FALLBACK_REPOS;
-    let stars      = FALLBACK_STARS;
-    let commits    = FALLBACK_COMMITS;
+    let repos = [];
+    let repoCount = FALLBACK_REPOS;
+    let stars = FALLBACK_STARS;
+    let commits = FALLBACK_COMMITS;
 
     if (reposRes.status === "fulfilled" && reposRes.value.ok) {
-      repos     = await reposRes.value.json();
+      repos = await reposRes.value.json();
       repoCount = Array.isArray(repos) ? repos.length : FALLBACK_REPOS;
-      stars     = Array.isArray(repos)
+      stars = Array.isArray(repos)
         ? repos.reduce((s, r) => s + (r.stargazers_count || 0), 0)
         : FALLBACK_STARS;
     }
@@ -126,16 +150,21 @@ async function fetchLiveData() {
     // Fetch language bytes for each repo concurrently (REST: per-repo endpoint)
     const langMap = {};
     if (repos.length > 0) {
-      const langFetches = repos.slice(0, 30).map(r =>
-        fetch(`https://api.github.com/repos/${USERNAME}/${r.name}/languages`, { headers: hdrs })
-          .then(res => res.ok ? res.json() : {})
-          .catch(() => ({}))
+      const langFetches = repos.slice(0, 30).map((r) =>
+        fetch(`https://api.github.com/repos/${USERNAME}/${r.name}/languages`, {
+          headers: hdrs,
+        })
+          .then((res) => (res.ok ? res.json() : {}))
+          .catch(() => ({})),
       );
       const results = await Promise.allSettled(langFetches);
-      results.forEach(r => {
+      results.forEach((r) => {
         if (r.status === "fulfilled") {
           Object.entries(r.value).forEach(([lang, bytes]) => {
-            if (lang.toLowerCase() !== "shell" && lang.toLowerCase() !== "typescript") {
+            if (
+              lang.toLowerCase() !== "shell" &&
+              lang.toLowerCase() !== "typescript"
+            ) {
               langMap[lang] = (langMap[lang] || 0) + bytes;
             }
           });
@@ -151,10 +180,14 @@ async function fetchLiveData() {
       langs = Object.entries(langMap)
         .sort(([, a], [, b]) => b - a)
         .slice(0, 6)
-        .map(([name, bytes]) => ({ name, bytes, pct: Math.round((bytes / totalBytes) * 100) }));
+        .map(([name, bytes]) => ({
+          name,
+          bytes,
+          pct: Math.round((bytes / totalBytes) * 100),
+        }));
     } else {
       const fbTotal = FALLBACK_LANGS.reduce((a, l) => a + l.bytes, 0);
-      langs = FALLBACK_LANGS.map(l => ({
+      langs = FALLBACK_LANGS.map((l) => ({
         ...l,
         pct: Math.round((l.bytes / fbTotal) * 100),
       }));
@@ -165,12 +198,15 @@ async function fetchLiveData() {
     // Hard fallback
     const fbTotal = FALLBACK_LANGS.reduce((a, l) => a + l.bytes, 0);
     return {
-      langs:     FALLBACK_LANGS.map(l => ({ ...l, pct: Math.round((l.bytes / fbTotal) * 100) })),
+      langs: FALLBACK_LANGS.map((l) => ({
+        ...l,
+        pct: Math.round((l.bytes / fbTotal) * 100),
+      })),
       repoCount: FALLBACK_REPOS,
-      stars:     FALLBACK_STARS,
-      commits:   FALLBACK_COMMITS,
+      stars: FALLBACK_STARS,
+      commits: FALLBACK_COMMITS,
       totalBytes: fbTotal,
-      source:    "fallback",
+      source: "fallback",
     };
   }
 }
@@ -178,7 +214,7 @@ async function fetchLiveData() {
 // ── Byte count → human readable ──────────────────────────────────────────────
 function fmtBytes(b) {
   if (b >= 1_000_000) return `${(b / 1_000_000).toFixed(1)}MB`;
-  if (b >= 1_000)     return `${Math.round(b / 1_000)}KB`;
+  if (b >= 1_000) return `${Math.round(b / 1_000)}KB`;
   return `${b}B`;
 }
 
@@ -191,72 +227,74 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-        bg:       "#000000",
-        bgPanel:  "#05030a",
-        bgCard:   "#090514",
-        text:     "#ffffff",
-        muted:    "#c084fc",
-        dim:      "#7c3aed",
-        border:   "#2d1a47",
-        border2:  "#1e1130",
-        accent:   "#a855f7",
-        accentD:  "#7c3aed",
-        mid:      "#c084fc",
-        cyan:     "#e9d5ff",
-        tagBg:    "#090514",
-        tagText:  "#c084fc",
-        tagBdr:   "#2d1a47",
-        statBg:   "#05030a",
-        shimmer:  "0.11",
+        bg: "#000000",
+        bgPanel: "#05030a",
+        bgCard: "#090514",
+        text: "#ffffff",
+        muted: "#c084fc",
+        dim: "#7c3aed",
+        border: "#2d1a47",
+        border2: "#1e1130",
+        accent: "#a855f7",
+        accentD: "#7c3aed",
+        mid: "#c084fc",
+        cyan: "#e9d5ff",
+        tagBg: "#090514",
+        tagText: "#c084fc",
+        tagBdr: "#2d1a47",
+        statBg: "#05030a",
+        shimmer: "0.11",
       }
     : {
-        bg:       "#ffffff",
-        bgPanel:  "#faf5ff",
-        bgCard:   "#f3e8ff",
-        text:     "#000000",
-        muted:    "#6d28d9",
-        dim:      "#8b5cf6",
-        border:   "#e9d5ff",
-        border2:  "#d8b4fe",
-        accent:   "#7c3aed",
-        accentD:  "#5b21b6",
-        mid:      "#6d28d9",
-        cyan:     "#a78bfa",
-        tagBg:    "#faf5ff",
-        tagText:  "#6d28d9",
-        tagBdr:   "#e9d5ff",
-        statBg:   "#faf5ff",
-        shimmer:  "0.30",
+        bg: "#ffffff",
+        bgPanel: "#faf5ff",
+        bgCard: "#f3e8ff",
+        text: "#000000",
+        muted: "#6d28d9",
+        dim: "#8b5cf6",
+        border: "#e9d5ff",
+        border2: "#d8b4fe",
+        accent: "#7c3aed",
+        accentD: "#5b21b6",
+        mid: "#6d28d9",
+        cyan: "#a78bfa",
+        tagBg: "#faf5ff",
+        tagText: "#6d28d9",
+        tagBdr: "#e9d5ff",
+        statBg: "#faf5ff",
+        shimmer: "0.30",
       };
 
   // Fetch live GitHub data
-  const { langs, repoCount, stars, commits, totalBytes, source } = await fetchLiveData();
+  const { langs, repoCount, stars, commits, totalBytes, source } =
+    await fetchLiveData();
 
   // ── Layout constants ────────────────────────────────────────────────────────
-  const W       = 900;
-  const PAD_X   = 28;
+  const W = 900;
+  const PAD_X = 28;
   const STRIP_W = 3;
 
   // ── Section 1: Live Language Breakdown (two-column) ────────────────────────
   //  Left col  = language bars
   //  Right col = meta stats panel
-  const SEC1_Y   = 28;      // section header baseline
-  const COLS_Y   = 44;      // columns start
-  const BAR_COL_W = 510;    // left col width
+  const SEC1_Y = 28; // section header baseline
+  const COLS_Y = 44; // columns start
+  const BAR_COL_W = 510; // left col width
 
-  const LABEL_W  = 118;
-  const BAR_X    = PAD_X + LABEL_W + 10;
-  const BAR_W    = BAR_COL_W - LABEL_W - 10 - 56;
-  const PCT_X    = BAR_X + BAR_W + 8;
-  const BYTE_X   = PCT_X + 36;
-  const ROW_H    = 31;
+  const LABEL_W = 118;
+  const BAR_X = PAD_X + LABEL_W + 10;
+  const BAR_W = BAR_COL_W - LABEL_W - 10 - 56;
+  const PCT_X = BAR_X + BAR_W + 8;
+  const BYTE_X = PCT_X + 36;
+  const ROW_H = 31;
 
-  const langBarsSVG = langs.map((lang, i) => {
-    const meta = LANG_META[lang.name] || LANG_META.default;
-    const y    = COLS_Y + i * ROW_H;
-    const fw   = Math.max(4, Math.round((lang.pct / 100) * BAR_W));
+  const langBarsSVG = langs
+    .map((lang, i) => {
+      const meta = LANG_META[lang.name] || LANG_META.default;
+      const y = COLS_Y + i * ROW_H;
+      const fw = Math.max(4, Math.round((lang.pct / 100) * BAR_W));
 
-    return `
+      return `
   <!-- lang row: ${lang.name} -->
   <!-- Language dot (visual rhyme: same circle used in legend, header badge, footer OFW) -->
   <circle cx="${PAD_X + 7}" cy="${y + 9}" r="4" fill="${meta.color}"/>
@@ -286,24 +324,32 @@ export default async function handler(req) {
         font-family="'Courier New',Consolas,monospace"
         font-size="9" fill="${c.dim}">${fmtBytes(lang.bytes)}</text>
 
-  ${i < langs.length - 1
-    ? `<line x1="${PAD_X}" y1="${y + ROW_H - 2}" x2="${BAR_COL_W}" y2="${y + ROW_H - 2}"
+  ${
+    i < langs.length - 1
+      ? `<line x1="${PAD_X}" y1="${y + ROW_H - 2}" x2="${BAR_COL_W}" y2="${y + ROW_H - 2}"
              stroke="${c.border}" stroke-width="0.4" opacity="0.5"/>`
-    : ""}`;
-  }).join("");
+      : ""
+  }`;
+    })
+    .join("");
 
   // ── Right col: meta stat cards ─────────────────────────────────────────────
-  const R_X      = BAR_COL_W + 20;
-  const CARD_W   = W - R_X - PAD_X;
+  const R_X = BAR_COL_W + 20;
+  const CARD_W = W - R_X - PAD_X;
   const STAT_CARDS = [
-    { label: "Repositories", value: repoCount, icon: "⬡", color: c.accent  },
-    { label: "Stars Earned",  value: stars,     icon: "★", color: "#f1c40f" },
-    { label: "Commits 2026",  value: commits,   icon: "↑", color: c.mid     },
-    { label: "Code Written",  value: fmtBytes(totalBytes), icon: "◈", color: c.cyan },
+    { label: "Repositories", value: repoCount, icon: "⬡", color: c.accent },
+    { label: "Stars Earned", value: stars, icon: "★", color: "#f1c40f" },
+    { label: "Commits 2026", value: commits, icon: "↑", color: c.mid },
+    {
+      label: "Code Written",
+      value: fmtBytes(totalBytes),
+      icon: "◈",
+      color: c.cyan,
+    },
   ];
 
-  const CARD_H    = 42;
-  const CARD_GAP  = 10;
+  const CARD_H = 42;
+  const CARD_GAP = 10;
 
   const statCardsSVG = STAT_CARDS.map(({ label, value, icon, color }, i) => {
     const cy = COLS_Y + i * (CARD_H + CARD_GAP);
@@ -334,34 +380,49 @@ export default async function handler(req) {
   }).join("");
 
   // Section 1 total height
-  const SEC1_H = COLS_Y + Math.max(langs.length * ROW_H, STAT_CARDS.length * (CARD_H + CARD_GAP)) + 16;
+  const SEC1_H =
+    COLS_Y +
+    Math.max(langs.length * ROW_H, STAT_CARDS.length * (CARD_H + CARD_GAP)) +
+    16;
 
   // ── Data source badge (live vs fallback — transparency) ───────────────────
-  const sourceLabel = source === "graphql"  ? "● LIVE · GraphQL"
-                    : source === "rest"     ? "● LIVE · REST"
-                    : "◌ CACHED · fallback";
+  const sourceLabel =
+    source === "graphql"
+      ? "● LIVE · GraphQL"
+      : source === "rest"
+        ? "● LIVE · REST"
+        : "◌ CACHED · fallback";
   const sourceColor = source === "fallback" ? c.dim : c.accent;
 
   // ── Section 2: Technology Badges ──────────────────────────────────────────
-  const SEC2_Y    = SEC1_H + 6;
+  const SEC2_Y = SEC1_H + 6;
   const TAGS_HEAD = SEC2_Y + 20;
-  const TAGS_Y    = TAGS_HEAD + 16;
-  const TAG_GAP   = 8;
-  const TAG_H     = 26;
-  const PER_ROW   = 5;
+  const TAGS_Y = TAGS_HEAD + 16;
+  const TAG_GAP = 8;
+  const TAG_H = 26;
+  const PER_ROW = 5;
 
   const tags = [
-    "Python", "Django", "React", "JavaScript", "Tailwind",
-    "MySQL", "REST API", "HTML", "CSS", "Git",
+    "Python",
+    "Django",
+    "React",
+    "JavaScript",
+    "Tailwind",
+    "MySQL",
+    "REST API",
+    "HTML",
+    "CSS",
+    "Git",
   ];
 
   function fullStretchRow(items, yPos) {
-    const n          = items.length;
-    const total_gap  = TAG_GAP * (n - 1);
-    const tw         = Math.floor((W - PAD_X * 2 - total_gap) / n);
-    return items.map((t, i) => {
-      const x = PAD_X + i * (tw + TAG_GAP);
-      return `
+    const n = items.length;
+    const total_gap = TAG_GAP * (n - 1);
+    const tw = Math.floor((W - PAD_X * 2 - total_gap) / n);
+    return items
+      .map((t, i) => {
+        const x = PAD_X + i * (tw + TAG_GAP);
+        return `
   <rect x="${x}" y="${yPos}" width="${tw}" height="${TAG_H}" rx="13"
         fill="${c.tagBg}" stroke="${c.tagBdr}" stroke-width="0.5"/>
   <!-- Micro accent dot prefix (visual rhyme: badge / footer pill dots) -->
@@ -369,45 +430,51 @@ export default async function handler(req) {
   <text x="${x + 20 + (tw - 20) / 2}" y="${yPos + 17}" text-anchor="middle"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="${c.tagText}">${t}</text>`;
-    }).join("");
+      })
+      .join("");
   }
 
-  const row1   = tags.slice(0, PER_ROW);
-  const row2   = tags.slice(PER_ROW);
-  const tagEls = fullStretchRow(row1, TAGS_Y)
-    + fullStretchRow(row2, TAGS_Y + TAG_H + TAG_GAP);
+  const row1 = tags.slice(0, PER_ROW);
+  const row2 = tags.slice(PER_ROW);
+  const tagEls =
+    fullStretchRow(row1, TAGS_Y) +
+    fullStretchRow(row2, TAGS_Y + TAG_H + TAG_GAP);
 
   // ── Section 3: Language Composition Segmented Bar ─────────────────────────
-  const SEC3_Y    = TAGS_Y + 2 * (TAG_H + TAG_GAP) + 18;
+  const SEC3_Y = TAGS_Y + 2 * (TAG_H + TAG_GAP) + 18;
   const COMP_HEAD = SEC3_Y + 18;
-  const COMP_Y    = COMP_HEAD + 14;
-  const COMP_H    = 10;
-  const COMP_W    = W - PAD_X * 2;
+  const COMP_Y = COMP_HEAD + 14;
+  const COMP_H = 10;
+  const COMP_W = W - PAD_X * 2;
 
   // Build segments (rounded ends on first and last)
   let segX = PAD_X;
-  const segments = langs.map((lang, i) => {
-    const meta = LANG_META[lang.name] || LANG_META.default;
-    const sw   = Math.max(6, Math.round((lang.pct / 100) * COMP_W));
-    const rx   = i === 0 ? 5 : (i === langs.length - 1 ? 5 : 0);
-    const el   = `<rect x="${segX}" y="${COMP_Y}" width="${sw}" height="${COMP_H}"
+  const segments = langs
+    .map((lang, i) => {
+      const meta = LANG_META[lang.name] || LANG_META.default;
+      const sw = Math.max(6, Math.round((lang.pct / 100) * COMP_W));
+      const rx = i === 0 ? 5 : i === langs.length - 1 ? 5 : 0;
+      const el = `<rect x="${segX}" y="${COMP_Y}" width="${sw}" height="${COMP_H}"
           rx="${rx}" fill="${meta.color}" opacity="0.9"/>`;
-    segX += sw;
-    return el;
-  }).join("\n  ");
+      segX += sw;
+      return el;
+    })
+    .join("\n  ");
 
   // Legend for the composition bar
   const LEGEND_Y = COMP_Y + COMP_H + 12;
-  const legendSVG = langs.map((lang, i) => {
-    const meta = LANG_META[lang.name] || LANG_META.default;
-    const lx   = PAD_X + i * 130;
-    if (lx + 120 > W) return "";
-    return `
+  const legendSVG = langs
+    .map((lang, i) => {
+      const meta = LANG_META[lang.name] || LANG_META.default;
+      const lx = PAD_X + i * 130;
+      if (lx + 120 > W) return "";
+      return `
   <circle cx="${lx + 5}" cy="${LEGEND_Y - 3}" r="4" fill="${meta.color}"/>
   <text x="${lx + 14}" y="${LEGEND_Y}"
         font-family="'Courier New',Consolas,monospace"
         font-size="9" fill="${c.dim}">${lang.name} ${lang.pct}%</text>`;
-  }).join("");
+    })
+    .join("");
 
   const H = LEGEND_Y + 20;
 
@@ -513,7 +580,7 @@ export default async function handler(req) {
 
   return new Response(svg, {
     headers: {
-      "Content-Type":  "image/svg+xml",
+      "Content-Type": "image/svg+xml",
       "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=3600",
     },
   });

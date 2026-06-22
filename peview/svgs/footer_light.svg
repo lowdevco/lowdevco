@@ -36,7 +36,7 @@
       <rect x="35" y="52" width="87.6" height="26" rx="13"
             fill="#f5f2eb" stroke="#e5e1d8" stroke-width="0.5"/>
       <!-- Accent dot prefix (visual rhyme: badge dot in header, bullet dots in profile) -->
-      <circle cx="46" cy="65" r="2.5" fill="#16a34a" opacity="0.65"/>
+      <circle cx="46" cy="65" r="2.5" fill="#7c3aed" opacity="0.65"/>
       <text x="89.8" y="69" text-anchor="middle"
             font-family="'Courier New', Consolas, monospace"
             font-size="10" font-weight="700"
@@ -47,7 +47,7 @@
       <rect x="132.6" y="52" width="73.2" height="26" rx="13"
             fill="#f5f2eb" stroke="#e5e1d8" stroke-width="0.5"/>
       <!-- Accent dot prefix (visual rhyme: badge dot in header, bullet dots in profile) -->
-      <circle cx="143.6" cy="65" r="2.5" fill="#16a34a" opacity="0.65"/>
+      <circle cx="143.6" cy="65" r="2.5" fill="#7c3aed" opacity="0.65"/>
       <text x="180.2" y="69" text-anchor="middle"
             font-family="'Courier New', Consolas, monospace"
             font-size="10" font-weight="700"
@@ -58,7 +58,7 @@
       <rect x="215.8" y="52" width="94.8" height="26" rx="13"
             fill="#f5f2eb" stroke="#e5e1d8" stroke-width="0.5"/>
       <!-- Accent dot prefix (visual rhyme: badge dot in header, bullet dots in profile) -->
-      <circle cx="226.8" cy="65" r="2.5" fill="#16a34a" opacity="0.65"/>
+      <circle cx="226.8" cy="65" r="2.5" fill="#7c3aed" opacity="0.65"/>
       <text x="274.2" y="69" text-anchor="middle"
             font-family="'Courier New', Consolas, monospace"
             font-size="10" font-weight="700"
@@ -79,7 +79,7 @@
         fill="#1a1a1a" letter-spacing="0.5">Muhammad Irfan</text>
 
   <!-- ── LEFT ACCENT STRIP (visual rhyme anchor — on every card) ──────── -->
-  <rect x="0" y="0" width="3" height="92" fill="#16a34a" opacity="0.7"/>
+  <rect x="0" y="0" width="3" height="92" fill="#7c3aed" opacity="0.7"/>
 
   <!-- Card border -->
   <rect x="899" y="0" width="1" height="92" fill="#e5e1d8"/>

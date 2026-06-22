@@ -13,8 +13,8 @@
   <linearGradient id="divGrad" x1="0" y1="0" x2="0" y2="1"
                    gradientUnits="userSpaceOnUse"
                    y1="24" y2="294">
-    <stop offset="0%"   stop-color="#39d353" stop-opacity="0.6"/>
-    <stop offset="100%" stop-color="#39d353" stop-opacity="0"/>
+    <stop offset="0%"   stop-color="#a855f7" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
   </linearGradient>
 </defs>
 <g clip-path="url(#pc)">
@@ -74,11 +74,11 @@
         stroke="#21262d" stroke-width="0.5"/>
 
   <!-- Dot bullet (visual rhyme — same dot used in badge, footer links, legend) -->
-  <circle cx="29" cy="269" r="2.5" fill="#39d353" opacity="0.75"/>
+  <circle cx="29" cy="269" r="2.5" fill="#a855f7" opacity="0.75"/>
   <text x="40" y="274"
         font-family="'Courier New',Consolas,monospace" font-size="11" fill="#6e7681">Django · REST APIs · SQL Databases</text>
 
-  <circle cx="29" cy="285" r="2.5" fill="#39d353" opacity="0.75"/>
+  <circle cx="29" cy="285" r="2.5" fill="#a855f7" opacity="0.75"/>
   <text x="40" y="290"
         font-family="'Courier New',Consolas,monospace" font-size="11" fill="#6e7681">React · Tailwind CSS · JavaScript · Git</text>
 
@@ -102,54 +102,54 @@
   <!-- stat row 0 -->
   <text x="480" y="52"
         font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#39d353">↑</text>
+        font-size="10" fill="#a855f7">↑</text>
   <text x="496" y="52"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#8b949e">Commits (2026)</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
   <text x="876" y="52" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353"
+        font-size="20" font-weight="700" fill="#a855f7"
         filter="url(#numGlow)">125</text>
   <text x="876" y="52" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353">125</text>
+        font-size="20" font-weight="700" fill="#a855f7">125</text>
   <!-- stat row 1 -->
   <text x="480" y="98"
         font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#39d353">⇄</text>
+        font-size="10" fill="#a855f7">⇄</text>
   <text x="496" y="98"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#8b949e">Pull Requests</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
   <text x="876" y="98" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353"
+        font-size="20" font-weight="700" fill="#a855f7"
         filter="url(#numGlow)">2</text>
   <text x="876" y="98" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353">2</text>
+        font-size="20" font-weight="700" fill="#a855f7">2</text>
   <!-- stat row 2 -->
   <text x="480" y="144"
         font-family="'Courier New',Consolas,monospace"
-        font-size="10" fill="#39d353">!</text>
+        font-size="10" fill="#a855f7">!</text>
   <text x="496" y="144"
         font-family="'Courier New',Consolas,monospace"
         font-size="10" fill="#8b949e">Issues</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
   <text x="876" y="144" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353"
+        font-size="20" font-weight="700" fill="#a855f7"
         filter="url(#numGlow)">0</text>
   <text x="876" y="144" text-anchor="end"
         font-family="'Courier New',Consolas,monospace"
-        font-size="20" font-weight="700" fill="#39d353">0</text>
+        font-size="20" font-weight="700" fill="#a855f7">0</text>
   
   <rect x="690" y="186" width="88" height="20" rx="10"
         fill="#0d2114" stroke="#30363d" stroke-width="0.5"/>
   <text x="734" y="199" text-anchor="middle"
         font-family="'Courier New',Consolas,monospace"
-        font-size="9.5" font-weight="700" fill="#39d353">Full Stack</text>
+        font-size="9.5" font-weight="700" fill="#a855f7">Full Stack</text>
   <rect x="788" y="186" width="88" height="20" rx="10"
         fill="#1a1530" stroke="#30363d" stroke-width="0.5"/>
   <text x="832" y="199" text-anchor="middle"
@@ -186,7 +186,7 @@
         font-family="'Courier New',Consolas,monospace" font-size="10" fill="#6e7681">25%</text>
 
   <!-- ── LEFT ACCENT STRIP (visual rhyme anchor — on every card) ────────── -->
-  <rect x="0" y="0" width="3" height="418" fill="#39d353" opacity="0.7"/>
+  <rect x="0" y="0" width="3" height="418" fill="#a855f7" opacity="0.7"/>
 
   <rect y="417" width="900" height="1" fill="#30363d"/>
 </g>

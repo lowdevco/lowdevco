@@ -6,27 +6,32 @@ export default async function handler(req) {
   // ── Design tokens ──────────────────────────────────────────────────────────
   const c = dark
     ? {
-      bg: "#000000",
-      bar: "#090514",
-      text: "#ffffff",
-      muted: "#c084fc",
-      dim: "#7c3aed",
-      border: "#2d1a47",
-      accent: "#a855f7",
-      aBg: "#2e1065",
-    }
+        bg: "#000000",
+        bar: "#090514",
+        text: "#ffffff",
+        muted: "#c084fc",
+        dim: "#7c3aed",
+        border: "#2d1a47",
+        accent: "#a855f7",
+        aBg: "#2e1065",
+        badgeBg: "#0f2a18",
+        badgeFg: "#39d353",
+      }
     : {
-      bg: "#ffffff",
-      bar: "#faf5ff",
-      text: "#000000",
-      muted: "#6d28d9",
-      dim: "#8b5cf6",
-      border: "#e9d5ff",
-      accent: "#7c3aed",
-      aBg: "#f3e8ff",
-    };
+        bg: "#ffffff",
+        bar: "#faf5ff",
+        text: "#000000",
+        muted: "#6d28d9",
+        dim: "#8b5cf6",
+        border: "#e9d5ff",
+        accent: "#7c3aed",
+        aBg: "#f3e8ff",
+        badgeBg: "#dcfce7",
+        badgeFg: "#16a34a",
+      };
 
-  const W = 900, H = 196;
+  const W = 900,
+    H = 196;
   const BAR_H = 32;
   const PAD_X = 28;
   const STRIP_W = 3; // left accent strip — visual rhyme anchor across all cards
@@ -112,12 +117,12 @@ export default async function handler(req) {
   <text x="${PAD_X}" y="${NAME_Y}" font-family="monospace" font-size="28" font-weight="bold" fill="${c.text}">Muhammad Irfan</text>
   <text x="${PAD_X}" y="${ROLE_Y}" font-family="'Courier New', Consolas, monospace" font-size="11" font-weight="700" fill="${c.muted}">Full Stack Developer · Python &amp; React · Kerala, India · UTC+5:30</text>
 
-  <rect x="${PAD_X}" y="${BADGE_Y}" width="122" height="18" rx="9" fill="${c.aBg}"/>
-  <circle cx="${PAD_X + 13}" cy="${BADGE_Y + 9}" r="3.5" fill="${c.accent}"/>
+  <rect x="${PAD_X}" y="${BADGE_Y}" width="122" height="18" rx="9" fill="${c.badgeBg}"/>
+  <circle cx="${PAD_X + 13}" cy="${BADGE_Y + 9}" r="3.5" fill="${c.badgeFg}"/>
   <text x="${PAD_X + 25}" y="${BADGE_Y + 12.5}"
         font-family="'Courier New', Consolas, monospace"
         font-size="9.5" font-weight="700"
-        fill="${c.accent}" letter-spacing="0.5">OPEN FOR WORK</text>
+        fill="${c.badgeFg}" letter-spacing="0.5">OPEN FOR WORK</text>
 
   <rect x="0" y="${TYPE_Y - 24}" width="${W}" height="40" fill="url(#typeBarGrad)"/>
   <line x1="0" y1="${TYPE_Y - 24}" x2="${W}" y2="${TYPE_Y - 24}" stroke="${c.border}" stroke-width="0.5" opacity="0.8"/>
