@@ -278,7 +278,7 @@ export default async function handler(req) {
     {
       headers: {
         "Content-Type": "image/svg+xml",
-        "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=900",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     },
   );

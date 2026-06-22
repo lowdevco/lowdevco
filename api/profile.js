@@ -392,7 +392,7 @@ export default async function handler(req) {
   return new Response(svg, {
     headers: {
       "Content-Type": "image/svg+xml",
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      "Cache-Control": "public, max-age=0, must-revalidate",
     },
   });
 }
