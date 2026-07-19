@@ -19,7 +19,7 @@ export const INFO = {
   role: "Full Stack Developer",
 
   /** Role secondary subtitle / tech specialization */
-  skillsSubtitle: "Python & React",
+  skillsSubtitle: "React & Django",
 
   /**  location string */
   location: "Kerala, India",
