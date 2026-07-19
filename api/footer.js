@@ -1,3 +1,5 @@
+import { INFO } from "./info.js";
+
 export const config = { runtime: "edge" };
 
 export default async function handler(req) {
@@ -37,11 +39,7 @@ export default async function handler(req) {
   const PAD_X = 28;
   const STRIP_W = 3; // left accent strip — visual rhyme anchor
 
-  const LINKS = [
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/muhammadirfank/" },
-    { label: "GitHub", url: "https://github.com/lowdevco" },
-    { label: "Portfolio", url: "https://lowdevco.vercel.app/" },
-  ];
+  const LINKS = INFO.links;
 
   const TAG_H = 26;
   const TAG_Y = 52;
@@ -116,7 +114,7 @@ export default async function handler(req) {
   <text x="${BRAND_X}" y="${TAG_Y + 17}" text-anchor="end"
         font-family="'Courier New', Consolas, monospace"
         font-size="12" font-weight="800"
-        fill="${c.text}" letter-spacing="0.5">Muhammad Irfan</text>
+        fill="${c.text}" letter-spacing="0.5">${INFO.name}</text>
 
   <!-- ── LEFT ACCENT STRIP (visual rhyme anchor — on every card) ──────── -->
   <rect x="0" y="0" width="${STRIP_W}" height="${H}" fill="${c.accent}" opacity="0.7"/>

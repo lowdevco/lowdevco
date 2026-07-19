@@ -1,6 +1,8 @@
+import { INFO } from "./info.js";
+
 export const config = { runtime: "edge" };
 
-const USERNAME = "lowdevco";
+const USERNAME = INFO.handle;
 
 // ── Language Aesthetics Map ──────────────────────────────────────────────────
 const LANG_META = {
@@ -61,10 +63,7 @@ async function fetchEngineData() {
     languagesData.forEach((result) => {
       if (result.status === "fulfilled") {
         Object.entries(result.value).forEach(([lang, bytes]) => {
-          if (
-            lang.toLowerCase() !== "shell" &&
-            lang.toLowerCase() !== "typescript"
-          ) {
+          if (!INFO.excludedLanguages.includes(lang.toLowerCase())) {
             langMap[lang] = (langMap[lang] || 0) + bytes;
           }
         });
@@ -134,18 +133,7 @@ export default async function handler(req) {
   const { langs, totalBytes, source } = await fetchEngineData();
 
   // Core tech stacks to display beautifully below raw code analytics
-  const techStack = [
-    "Python",
-    "Django",
-    "React",
-    "JavaScript",
-    "Tailwind",
-    "MySQL",
-    "REST API",
-    "HTML",
-    "CSS",
-    "Git",
-  ];
+  const techStack = INFO.technologies;
 
   // Layout Canvas Calculations
   const W = 900;

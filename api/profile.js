@@ -1,6 +1,8 @@
+import { INFO } from "./info.js";
+
 export const config = { runtime: "edge" };
 
-const USERNAME = "lowdevco";
+const USERNAME = INFO.handle;
 
 const FALLBACK = {
   stars: 0,
@@ -59,10 +61,7 @@ async function fetchStats() {
       const lm = {};
       u.repositories.nodes.forEach((r) =>
         r.languages.edges.forEach(({ size, node }) => {
-          if (
-            node.name.toLowerCase() !== "shell" &&
-            node.name.toLowerCase() !== "typescript"
-          ) {
+          if (!INFO.excludedLanguages.includes(node.name.toLowerCase())) {
             lm[node.name] = (lm[node.name] || 0) + size;
           }
         }),
@@ -119,8 +118,7 @@ async function fetchStats() {
         repos.forEach((r) => {
           if (
             r.language &&
-            r.language.toLowerCase() !== "shell" &&
-            r.language.toLowerCase() !== "typescript"
+            !INFO.excludedLanguages.includes(r.language.toLowerCase())
           ) {
             lc[r.language] = (lc[r.language] || 0) + 1;
           }
@@ -210,32 +208,12 @@ export default async function handler(req) {
 
   // ── LEFT: ABOUT ─────────────────────────────────────────────────────────────
   const ABOUT_LINES = [
-    { text: "I build robust web systems from the database up —", bold: true },
-    { text: "scalability first, clean code always.", bold: true },
+    { text: INFO.headlineLine1, bold: true },
+    { text: INFO.headlineLine2, bold: true },
     { text: null },
-    {
-      text: "Python Full Stack Developer based in Kerala, India,",
-      bold: false,
-    },
-    {
-      text: "turning complex requirements into elegant solutions.",
-      bold: false,
-    },
-    { text: "Specialized in crafting reliable backends using", bold: false },
-    { text: "Django and building dynamic frontends with React.", bold: false },
-    { text: null },
-    {
-      text: "Focused on clean REST APIs, optimized SQL databases,",
-      bold: false,
-    },
-    {
-      text: "responsive Tailwind CSS designs, and writing clean,",
-      bold: false,
-    },
-    {
-      text: "maintainable code with a strong attention to detail.",
-      bold: false,
-    },
+    ...INFO.aboutParagraphs.map((text) =>
+      text ? { text, bold: false } : { text: null },
+    ),
   ];
 
   const L_H = 15;
@@ -305,12 +283,12 @@ export default async function handler(req) {
         fill="${c.tagABg}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${R_END - 142}" y="${TAG_Y + 13}" text-anchor="middle"
         font-family="'Courier New',Consolas,monospace"
-        font-size="9.5" font-weight="700" fill="${c.tagAFg}">Full Stack</text>
-  <rect x="${R_END - 88}" y="${TAG_Y}" width="88" height="${TAG_H}" rx="10"
+        font-size="9.5" font-weight="700" fill="${c.tagAFg}">${INFO.tagBadges.primary}</text>
+  <rect x="${R_END - 88}" y="${TAG_Y}" width="${TAG_H}" rx="10"
         fill="${c.tagBBg}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${R_END - 44}" y="${TAG_Y + 13}" text-anchor="middle"
         font-family="'Courier New',Consolas,monospace"
-        font-size="9.5" font-weight="700" fill="${c.tagBFg}">IST · IN</text>`;
+        font-size="9.5" font-weight="700" fill="${c.tagBFg}">${INFO.tagBadges.secondary}</text>`;
 
   const H = Math.max(BUL_Y2 + 20, TAG_Y + TAG_H + 20);
 
@@ -355,11 +333,11 @@ export default async function handler(req) {
   <!-- Dot bullet (visual rhyme — same dot used in badge, footer links, legend) -->
   <circle cx="${L_X + 5}" cy="${BUL_Y1 - 1}" r="2.5" fill="${c.accent}" opacity="0.75"/>
   <text x="${L_X + 16}" y="${BUL_Y1 + 4}"
-        font-family="'Courier New',Consolas,monospace" font-size="11" fill="${c.dim}">Django · REST APIs · SQL Databases</text>
+        font-family="'Courier New',Consolas,monospace" font-size="11" fill="${c.dim}">${INFO.bulletList[0] || ""}</text>
 
   <circle cx="${L_X + 5}" cy="${BUL_Y2 - 1}" r="2.5" fill="${c.accent}" opacity="0.75"/>
   <text x="${L_X + 16}" y="${BUL_Y2 + 4}"
-        font-family="'Courier New',Consolas,monospace" font-size="11" fill="${c.dim}">React · Tailwind CSS · JavaScript · Git</text>
+        font-family="'Courier New',Consolas,monospace" font-size="11" fill="${c.dim}">${INFO.bulletList[1] || ""}</text>
 
   <!-- ── COLUMN DIVIDER (gradient fade — depth) ───────────────────────── -->
   <rect x="${DIVX}" y="${UND_Y}" width="1" height="${H - 12 - UND_Y}"

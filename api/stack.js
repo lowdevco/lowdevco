@@ -1,3 +1,5 @@
+import { INFO } from "./info.js";
+
 export const config = { runtime: "edge" };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -6,7 +8,7 @@ export const config = { runtime: "edge" };
 //  Design System: "Terminal Noir" — dark #0a0c10, accent #39d353
 // ─────────────────────────────────────────────────────────────────────────────
 
-const USERNAME = "lowdevco";
+const USERNAME = INFO.handle;
 
 // Canonical language → display color mapping
 const LANG_META = {
@@ -73,10 +75,7 @@ async function fetchLiveData() {
       const lm = {};
       u.repositories.nodes.forEach((r) =>
         r.languages.edges.forEach(({ size, node }) => {
-          if (
-            node.name.toLowerCase() !== "shell" &&
-            node.name.toLowerCase() !== "typescript"
-          ) {
+          if (!INFO.excludedLanguages.includes(node.name.toLowerCase())) {
             lm[node.name] = (lm[node.name] || 0) + size;
           }
         }),
@@ -161,10 +160,7 @@ async function fetchLiveData() {
       results.forEach((r) => {
         if (r.status === "fulfilled") {
           Object.entries(r.value).forEach(([lang, bytes]) => {
-            if (
-              lang.toLowerCase() !== "shell" &&
-              lang.toLowerCase() !== "typescript"
-            ) {
+            if (!INFO.excludedLanguages.includes(lang.toLowerCase())) {
               langMap[lang] = (langMap[lang] || 0) + bytes;
             }
           });
@@ -402,18 +398,7 @@ export default async function handler(req) {
   const TAG_H = 26;
   const PER_ROW = 5;
 
-  const tags = [
-    "Python",
-    "Django",
-    "React",
-    "JavaScript",
-    "Tailwind",
-    "MySQL",
-    "REST API",
-    "HTML",
-    "CSS",
-    "Git",
-  ];
+  const tags = INFO.technologies;
 
   function fullStretchRow(items, yPos) {
     const n = items.length;
