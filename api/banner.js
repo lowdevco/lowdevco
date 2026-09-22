@@ -7,17 +7,17 @@ export default async function handler(req) {
     ? {
         bg: "#000000",
         border: "#2e1a47",
-        accent: "#a855f7",
+        accent: "#A57AFF",
         text: "#ffffff",
-        dim: "#9333ea",
+        dim: "#B694FF",
         boxBg: "#090514",
       }
     : {
         bg: "#ffffff",
         border: "#e9d5ff",
-        accent: "#7c3aed",
+        accent: "#A57AFF",
         text: "#000000",
-        dim: "#6d28d9",
+        dim: "#B694FF",
         boxBg: "#faf5ff",
       };
 
@@ -35,15 +35,15 @@ export default async function handler(req) {
   <rect y="0" width="${W}" height="0.5" fill="${c.border}" opacity="0.8"/>
   <rect y="${H - 0.5}" width="${W}" height="0.5" fill="${c.border}" opacity="0.8"/>
 
-  <rect x="20" y="7" width="${W - 40}" height="30" rx="4" fill="${c.boxBg}" stroke="${c.border}" stroke-width="0.5"/>
+  <rect x="20" y="7" width="${W - 40}" height="30" rx="8" fill="${c.boxBg}" stroke="${c.border}" stroke-width="0.5"/>
 
   <rect x="0" y="0" width="${STRIP_W}" height="${H}" fill="${c.accent}" opacity="0.7"/>
 
-  <text x="35" y="26" font-family="'Courier New',Consolas,monospace" font-size="12" font-weight="bold" fill="${c.accent}">>_</text>
+  <text x="35" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="bold" fill="${c.accent}">>✨</text>
 
-  <text x="${W / 2}" y="26" text-anchor="middle" font-family="'Courier New',Consolas,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="${c.text}">DEPLOY YOUR OWN TERMINAL PROFILE</text>
+  <text x="${W / 2}" y="26" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" letter-spacing="0.5" fill="${c.text}">DEPLOY YOUR OWN PROFILE</text>
 
-  <text x="${W - 35}" y="26" text-anchor="end" font-family="'Courier New',Consolas,monospace" font-size="12" font-weight="700" fill="${c.dim}">[ CLICK HERE ]</text>
+  <text x="${W - 35}" y="26" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="${c.dim}">[ CLICK HERE ]</text>
 </g>
 </svg>`;
 

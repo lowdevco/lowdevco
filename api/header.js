@@ -21,9 +21,9 @@ export default async function handler(req) {
         bar: "#090514",
         text: "#ffffff",
         muted: "#c084fc",
-        dim: "#7c3aed",
+        dim: "#B694FF",
         border: "#2d1a47",
-        accent: "#a855f7",
+        accent: "#A57AFF",
         aBg: "#2e1065",
         badgeBg: "#0f2a18",
         badgeFg: "#39d353",
@@ -33,9 +33,9 @@ export default async function handler(req) {
         bar: "#faf5ff",
         text: "#000000",
         muted: "#6d28d9",
-        dim: "#8b5cf6",
+        dim: "#B694FF",
         border: "#e9d5ff",
-        accent: "#7c3aed",
+        accent: "#A57AFF",
         aBg: "#f3e8ff",
         badgeBg: "#dcfce7",
         badgeFg: "#16a34a",
@@ -91,7 +91,7 @@ export default async function handler(req) {
     // The text element for the typing animation (cursor removed)
     linesSVG += `
       <text x="${PAD_X}" y="${TYPE_Y}"
-            font-family="'Courier New', Consolas, monospace" font-size="14" font-weight="700"
+            font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700"
             fill="${c.accent}"
             clip-path="url(#type-clip-${i})"
             opacity="0">
@@ -119,15 +119,15 @@ export default async function handler(req) {
   <circle cx="20" cy="16" r="5" fill="#ff5f56"/>
   <circle cx="36" cy="16" r="5" fill="#ffbd2e"/>
   <circle cx="52" cy="16" r="5" fill="#27c93f"/>
-  <text x="72" y="20" font-family="'Courier New', Consolas, monospace" font-size="11" fill="${c.dim}">~/${escapeXml(INFO.handle)} — zsh</text>
+  <text x="72" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${c.dim}">${escapeXml(INFO.handle)}</text>
 
-  <text x="${PAD_X}" y="${NAME_Y}" font-family="monospace" font-size="28" font-weight="bold" fill="${c.text}">${escapeXml(INFO.name)}</text>
-  <text x="${PAD_X}" y="${ROLE_Y}" font-family="'Courier New', Consolas, monospace" font-size="11" font-weight="700" fill="${c.muted}">${escapeXml(INFO.role)} · ${escapeXml(INFO.skillsSubtitle)} · ${escapeXml(INFO.location)} · ${escapeXml(INFO.timezone)}</text>
+  <text x="${PAD_X}" y="${NAME_Y}" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="bold" fill="${c.text}">${escapeXml(INFO.name)}</text>
+  <text x="${PAD_X}" y="${ROLE_Y}" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="${c.muted}">${escapeXml(INFO.role)} · ${escapeXml(INFO.skillsSubtitle)} · ${escapeXml(INFO.location)} · ${escapeXml(INFO.timezone)}</text>
 
   <rect x="${PAD_X}" y="${BADGE_Y}" width="122" height="18" rx="9" fill="${c.badgeBg}"/>
   <circle cx="${PAD_X + 13}" cy="${BADGE_Y + 9}" r="3.5" fill="${c.badgeFg}"/>
   <text x="${PAD_X + 25}" y="${BADGE_Y + 12.5}"
-        font-family="'Courier New', Consolas, monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="9.5" font-weight="700"
         fill="${c.badgeFg}" letter-spacing="0.5">${escapeXml(INFO.statusBadge)}</text>
 

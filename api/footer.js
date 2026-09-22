@@ -12,9 +12,9 @@ export default async function handler(req) {
         bar: "#090514",
         text: "#ffffff",
         muted: "#c084fc",
-        dim: "#7c3aed",
+        dim: "#B694FF",
         border: "#2d1a47",
-        accent: "#a855f7",
+        accent: "#A57AFF",
         linkBg: "#090514",
         linkText: "#c084fc",
         linkBorder: "#2d1a47",
@@ -25,9 +25,9 @@ export default async function handler(req) {
         bar: "#faf5ff",
         text: "#000000",
         muted: "#6d28d9",
-        dim: "#8b5cf6",
+        dim: "#B694FF",
         border: "#e9d5ff",
-        accent: "#7c3aed",
+        accent: "#A57AFF",
         linkBg: "#faf5ff",
         linkText: "#6d28d9",
         linkBorder: "#e9d5ff",
@@ -58,7 +58,7 @@ export default async function handler(req) {
       <!-- Accent dot prefix (visual rhyme: badge dot in header, bullet dots in profile) -->
       <circle cx="${cx + 11}" cy="${TAG_Y + 13}" r="2.5" fill="${c.accent}" opacity="0.65"/>
       <text x="${cx + 22 + (pW - 22) / 2}" y="${TAG_Y + 17}" text-anchor="middle"
-            font-family="'Courier New', Consolas, monospace"
+            font-family="system-ui, -apple-system, sans-serif"
             font-size="10" font-weight="700"
             fill="${c.linkText}" letter-spacing="0.5">${link.label}</text>
     </a>`;
@@ -96,9 +96,9 @@ export default async function handler(req) {
   <circle cx="38" cy="17" r="4.5" fill="#febc2e"/>
   <circle cx="54" cy="17" r="4.5" fill="#28c840"/>
   <text x="74" y="21"
-        font-family="'Courier New', Consolas, monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="11" font-weight="600"
-        fill="${c.dim}" letter-spacing="1">connect  ·  collaborate  ·  build</text>
+        fill="${c.dim}" letter-spacing="0">connect  ·  collaborate  ·  build</text>
 
   <!-- ── LINK PILLS ────────────────────────────────────────────────────── -->
   ${linkPills}
@@ -106,13 +106,13 @@ export default async function handler(req) {
   <!-- ── OFW STATUS (pulsing dot — visual rhyme with badge dot in header) -->
   <circle cx="${OFW_DOT_X}" cy="${TAG_Y + 13}" r="4" fill="${c.ofwColor}" class="ofw-dot"/>
   <text x="${OFW_DOT_X + 13}" y="${TAG_Y + 17}"
-        font-family="'Courier New', Consolas, monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="10.5" font-weight="700"
-        fill="${c.ofwColor}" letter-spacing="1">OFW</text>
+        fill="${c.ofwColor}" letter-spacing="0">OFW</text>
 
   <!-- ── BRAND NAME (typography rhyme — mirrors hero name in header) ────── -->
   <text x="${BRAND_X}" y="${TAG_Y + 17}" text-anchor="end"
-        font-family="'Courier New', Consolas, monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="12" font-weight="800"
         fill="${c.text}" letter-spacing="0.5">${INFO.name}</text>
 

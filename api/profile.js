@@ -163,10 +163,10 @@ export default async function handler(req) {
         bg3: "#090514",
         text: "#ffffff",
         muted: "#c084fc",
-        dim: "#7c3aed",
+        dim: "#B694FF",
         border: "#2d1a47",
         border2: "#1e1130",
-        accent: "#a855f7",
+        accent: "#A57AFF",
         statVal: "#c084fc",
         tagABg: "#2e1065",
         tagAFg: "#c084fc",
@@ -179,10 +179,10 @@ export default async function handler(req) {
         bg3: "#f3e8ff",
         text: "#000000",
         muted: "#6d28d9",
-        dim: "#8b5cf6",
+        dim: "#B694FF",
         border: "#e9d5ff",
         border2: "#d8b4fe",
-        accent: "#7c3aed",
+        accent: "#A57AFF",
         statVal: "#6d28d9",
         tagABg: "#f3e8ff",
         tagAFg: "#7c3aed",
@@ -223,7 +223,7 @@ export default async function handler(req) {
     if (!line.text) return "";
     const y = L_SY + i * L_H;
     return `<text x="${L_X}" y="${y}"
-      font-family="'Courier New',Consolas,monospace"
+      font-family="system-ui, -apple-system, sans-serif"
       font-size="${line.bold ? 12.5 : 11}" font-weight="${line.bold ? "700" : "400"}"
       fill="${line.bold ? c.text : c.muted}">${line.text}</text>`;
   }).join("\n");
@@ -253,22 +253,22 @@ export default async function handler(req) {
     return `
   <!-- stat row ${i} -->
   <text x="${R_X}" y="${ry + 14}"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="10" fill="${c.accent}">${icon}</text>
   <text x="${R_X + 16}" y="${ry + 14}"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="10" fill="${c.muted}">${label}</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
   ${
     dark
       ? `<text x="${R_END}" y="${ry + 14}" text-anchor="end"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="20" font-weight="700" fill="${c.statVal}"
         filter="url(#numGlow)">${value}</text>`
       : ""
   }
   <text x="${R_END}" y="${ry + 14}" text-anchor="end"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="20" font-weight="700" fill="${c.statVal}">${value}</text>`;
   }).join("");
 
@@ -282,12 +282,12 @@ export default async function handler(req) {
   <rect x="${R_END - 186}" y="${TAG_Y}" width="88" height="${TAG_H}" rx="10"
         fill="${c.tagABg}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${R_END - 142}" y="${TAG_Y + 13}" text-anchor="middle"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="9.5" font-weight="700" fill="${c.tagAFg}">${INFO.tagBadges.primary}</text>
   <rect x="${R_END - 88}" y="${TAG_Y}" width="${TAG_H}" rx="10"
         fill="${c.tagBBg}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${R_END - 44}" y="${TAG_Y + 13}" text-anchor="middle"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="9.5" font-weight="700" fill="${c.tagBFg}">${INFO.tagBadges.secondary}</text>`;
 
   const H = Math.max(BUL_Y2 + 20, TAG_Y + TAG_H + 20);
@@ -319,8 +319,8 @@ export default async function handler(req) {
   <!-- ── LEFT: ABOUT ──────────────────────────────────────────────────── -->
   <!-- Section label (// prefix — visual rhyme across all cards) -->
   <text x="${L_X}" y="${SEC_Y}"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="9" font-weight="700" letter-spacing="2" fill="${c.dim}">// ABOUT</text>
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">About</text>
   <line x1="${L_X}" y1="${UND_Y}" x2="${DIVX - 20}" y2="${UND_Y}"
         stroke="${c.border}" stroke-width="0.5"/>
 
@@ -333,11 +333,11 @@ export default async function handler(req) {
   <!-- Dot bullet (visual rhyme — same dot used in badge, footer links, legend) -->
   <circle cx="${L_X + 5}" cy="${BUL_Y1 - 1}" r="2.5" fill="${c.accent}" opacity="0.75"/>
   <text x="${L_X + 16}" y="${BUL_Y1 + 4}"
-        font-family="'Courier New',Consolas,monospace" font-size="11" fill="${c.dim}">${INFO.bulletList[0] || ""}</text>
+        font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${c.dim}">${INFO.bulletList[0] || ""}</text>
 
   <circle cx="${L_X + 5}" cy="${BUL_Y2 - 1}" r="2.5" fill="${c.accent}" opacity="0.75"/>
   <text x="${L_X + 16}" y="${BUL_Y2 + 4}"
-        font-family="'Courier New',Consolas,monospace" font-size="11" fill="${c.dim}">${INFO.bulletList[1] || ""}</text>
+        font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${c.dim}">${INFO.bulletList[1] || ""}</text>
 
   <!-- ── COLUMN DIVIDER (gradient fade — depth) ───────────────────────── -->
   <rect x="${DIVX}" y="${UND_Y}" width="1" height="${H - 12 - UND_Y}"
@@ -350,8 +350,8 @@ export default async function handler(req) {
 
   <!-- Section label -->
   <text x="${R_X}" y="${SEC_Y}"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="9" font-weight="700" letter-spacing="2" fill="${c.dim}">// GITHUB STATS</text>
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">Github Stats</text>
   <line x1="${R_X}" y1="${UND_Y}" x2="${R_END}" y2="${UND_Y}"
         stroke="${c.border}" stroke-width="0.5"/>
 

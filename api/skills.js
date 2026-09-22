@@ -107,10 +107,10 @@ export default async function handler(req) {
         bg: "#000000",
         text: "#ffffff",
         muted: "#c084fc",
-        dim: "#7c3aed",
+        dim: "#B694FF",
         border: "#2d1a47",
         border2: "#1e1130",
-        accent: "#a855f7",
+        accent: "#A57AFF",
         tagBg: "#090514",
         tagText: "#c084fc",
         tagBdr: "#2d1a47",
@@ -120,10 +120,10 @@ export default async function handler(req) {
         bg: "#ffffff",
         text: "#000000",
         muted: "#6d28d9",
-        dim: "#8b5cf6",
+        dim: "#B694FF",
         border: "#e9d5ff",
         border2: "#d8b4fe",
-        accent: "#7c3aed",
+        accent: "#A57AFF",
         tagBg: "#faf5ff",
         tagText: "#6d28d9",
         tagBdr: "#e9d5ff",
@@ -156,16 +156,16 @@ export default async function handler(req) {
       return `
   <circle cx="${PAD_X + 6}" cy="${y + 10}" r="3.5" fill="${meta.color}"/>
   <text x="${PAD_X + LABEL_W}" y="${y + 14}" text-anchor="end"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="11.5" font-weight="700" fill="${c.text}">${lang.name}</text>
-  <rect x="${BAR_X}" y="${y + 6}" width="${BAR_W}" height="8" rx="4" fill="${c.border2}"/>
-  <rect x="${BAR_X}" y="${y + 6}" width="${fw}" height="8" rx="4" fill="${meta.color}"/>
+  <rect x="${BAR_X}" y="${y + 6}" width="${BAR_W}" height="8" rx="8" fill="${c.border2}"/>
+  <rect x="${BAR_X}" y="${y + 6}" width="${fw}" height="8" rx="8" fill="${meta.color}"/>
   <rect x="${BAR_X}" y="${y + 6}" width="${fw}" height="3.5" rx="1.5" fill="white" opacity="${c.shimmer}"/>
   <text x="${PCT_X}" y="${y + 14}"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="11" font-weight="700" fill="${meta.color}">${lang.pct}%</text>
   <text x="${PCT_X + 44}" y="${y + 14}"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="10" fill="${c.dim}">${fmtBytes(lang.bytes)}</text>`;
     })
     .join("");
@@ -202,11 +202,11 @@ export default async function handler(req) {
       .map((tag, i) => {
         const x = PAD_X + i * (boxW + TAG_GAP);
         return `
-  <rect x="${x}" y="${yPos}" width="${boxW}" height="${TAG_H}" rx="4"
+  <rect x="${x}" y="${yPos}" width="${boxW}" height="${TAG_H}" rx="8"
         fill="${c.tagBg}" stroke="${c.tagBdr}" stroke-width="0.5"/>
   <circle cx="${x + 12}" cy="${yPos + 13}" r="2" fill="${c.accent}" opacity="0.7"/>
   <text x="${x + 20 + (boxW - 20) / 2}" y="${yPos + 16.5}" text-anchor="middle"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="10.5" font-weight="700" fill="${c.tagText}">${tag}</text>`;
       })
       .join("");
@@ -230,29 +230,29 @@ export default async function handler(req) {
   <rect width="${W}" height="0.5" fill="${c.border}"/>
 
   <text x="${PAD_X}" y="22"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="9" font-weight="700" letter-spacing="2" fill="${c.dim}">// AUTOMATED LANGUAGE METRICS</text>
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">Automated Language Metrics</text>
   <text x="${W - PAD_X}" y="22" text-anchor="end"
-        font-family="'Courier New',Consolas,monospace"
+        font-family="system-ui, -apple-system, sans-serif"
         font-size="8" font-weight="700" fill="${c.accent}" opacity="0.8">${source}</text>
   <line x1="${PAD_X}" y1="30" x2="${W - PAD_X}" y2="30" stroke="${c.border}" stroke-width="0.5"/>
 
   <text x="${PAD_X + LABEL_W}" y="44" text-anchor="end"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="8.5" letter-spacing="1" fill="${c.dim}">LANGUAGE</text>
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="8.5" letter-spacing="0" fill="${c.dim}">LANGUAGE</text>
   <text x="${BAR_X}" y="44"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="8.5" letter-spacing="1" fill="${c.dim}">ACCUMULATED VOLUME BYTES</text>
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="8.5" letter-spacing="0" fill="${c.dim}">ACCUMULATED VOLUME BYTES</text>
 
   ${barsSVG}
-  <rect x="${PAD_X}" y="${COMP_Y}" width="${COMP_W}" height="${COMP_H}" rx="5" fill="${c.border2}"/>
+  <rect x="${PAD_X}" y="${COMP_Y}" width="${COMP_W}" height="${COMP_H}" rx="10" fill="${c.border2}"/>
   ${segmentsSVG}
-  <rect x="${PAD_X}" y="${COMP_Y}" width="${COMP_W}" height="4" rx="5" fill="white" opacity="${c.shimmer}"/>
+  <rect x="${PAD_X}" y="${COMP_Y}" width="${COMP_W}" height="4" rx="10" fill="white" opacity="${c.shimmer}"/>
 
   <line x1="${PAD_X}" y1="${SEC2_Y}" x2="${W - PAD_X}" y2="${SEC2_Y}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${PAD_X}" y="${TAGS_HDR}"
-        font-family="'Courier New',Consolas,monospace"
-        font-size="9" font-weight="700" letter-spacing="2" fill="${c.dim}">// TECHNOLOGIES &amp; FRAMEWORKS</text>
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">// TECHNOLOGIES &amp; FRAMEWORKS</text>
 
   ${badgesSVG}
 
