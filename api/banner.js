@@ -39,11 +39,11 @@ export default async function handler(req) {
 
   <rect x="0" y="0" width="${STRIP_W}" height="${H}" fill="${c.accent}" opacity="0.7"/>
 
-  <text x="35" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="bold" fill="${c.accent}">>✨</text>
+  <text x="35" y="26" font-family="'Courier New', Consolas, monospace" font-size="12" font-weight="bold" fill="${c.accent}">>>_</text>
 
-  <text x="${W / 2}" y="26" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" letter-spacing="0.5" fill="${c.text}">DEPLOY YOUR OWN PROFILE</text>
+  <text x="${W / 2}" y="26" text-anchor="middle" font-family="'Courier New', Consolas, monospace" font-size="12" font-weight="700" letter-spacing="0.5" fill="${c.text}">DEPLOY YOUR OWN PROFILE</text>
 
-  <text x="${W - 35}" y="26" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="${c.dim}">[ CLICK HERE ]</text>
+  <text x="${W - 35}" y="26" text-anchor="end" font-family="'Courier New', Consolas, monospace" font-size="12" font-weight="700" fill="${c.dim}">[ CLICK HERE ]</text>
 </g>
 </svg>`;
 

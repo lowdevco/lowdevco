@@ -58,7 +58,7 @@ export default async function handler(req) {
       <!-- Accent dot prefix (visual rhyme: badge dot in header, bullet dots in profile) -->
       <circle cx="${cx + 11}" cy="${TAG_Y + 13}" r="2.5" fill="${c.accent}" opacity="0.65"/>
       <text x="${cx + 22 + (pW - 22) / 2}" y="${TAG_Y + 17}" text-anchor="middle"
-            font-family="system-ui, -apple-system, sans-serif"
+            font-family="'Courier New', Consolas, monospace"
             font-size="10" font-weight="700"
             fill="${c.linkText}" letter-spacing="0.5">${link.label}</text>
     </a>`;
@@ -96,7 +96,7 @@ export default async function handler(req) {
   <circle cx="38" cy="17" r="4.5" fill="#febc2e"/>
   <circle cx="54" cy="17" r="4.5" fill="#28c840"/>
   <text x="74" y="21"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="11" font-weight="600"
         fill="${c.dim}" letter-spacing="0">connect  ·  collaborate  ·  build</text>
 
@@ -106,13 +106,13 @@ export default async function handler(req) {
   <!-- ── OFW STATUS (pulsing dot — visual rhyme with badge dot in header) -->
   <circle cx="${OFW_DOT_X}" cy="${TAG_Y + 13}" r="4" fill="${c.ofwColor}" class="ofw-dot"/>
   <text x="${OFW_DOT_X + 13}" y="${TAG_Y + 17}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="10.5" font-weight="700"
         fill="${c.ofwColor}" letter-spacing="0">OFW</text>
 
   <!-- ── BRAND NAME (typography rhyme — mirrors hero name in header) ────── -->
   <text x="${BRAND_X}" y="${TAG_Y + 17}" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="12" font-weight="800"
         fill="${c.text}" letter-spacing="0.5">${INFO.name}</text>
 

@@ -40,14 +40,13 @@
         font-family="'Courier New', Consolas, monospace"
         font-size="11" fill="#57606a" letter-spacing="0.5">Full Stack Developer  ·  Python &amp; React  ·  Kerala, India  ·  UTC+5:30</text>
 
-  <!-- ── OPEN FOR WORK BADGE ───────────────────────────────────────────── -->
-  <rect x="28" y="116" width="122" height="18" rx="9" fill="#dcfce7"/>
-  <!-- Dot bullet (visual rhyme: same motif in footer link pills + profile bullets) -->
-  <circle cx="41" cy="125" r="3.5" fill="#16a34a"/>
-  <text x="53" y="128.5"
+ 
+  <!-- ── LET ME COOK ───────────────────────────────────────────── -->
+  <text x="28" y="127.5"
         font-family="'Courier New', Consolas, monospace"
         font-size="9.5" font-weight="700"
-        fill="#16a34a" letter-spacing="0.5">OPEN FOR WORK</text>
+        fill="#000" letter-spacing="0.5">🫠 LET ME COOK</text>
+
 
   <!-- ── LEFT ACCENT STRIP (visual rhyme anchor — on every card) ────────── -->
   <rect x="0" y="0" width="3" height="156" fill="#7c3aed" opacity="0.7"/>

@@ -295,7 +295,7 @@ export default async function handler(req) {
   <!-- Language dot (visual rhyme: same circle used in legend, header badge, footer OFW) -->
   <circle cx="${PAD_X + 7}" cy="${y + 9}" r="4" fill="${meta.color}"/>
   <text x="${PAD_X + LABEL_W + 6}" y="${y + 13}" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="11.5" font-weight="600"
         fill="${c.text}">${lang.name}</text>
 
@@ -311,13 +311,13 @@ export default async function handler(req) {
 
   <!-- Percentage (opacity tier 1) -->
   <text x="${PCT_X}" y="${y + 13}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="10" font-weight="700"
         fill="${meta.color}">${lang.pct}%</text>
 
   <!-- Byte size (opacity tier 3 — supporting data) -->
   <text x="${BYTE_X + 14}" y="${y + 13}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="9" fill="${c.dim}">${fmtBytes(lang.bytes)}</text>
 
   ${
@@ -361,16 +361,16 @@ export default async function handler(req) {
 
   <!-- Icon -->
   <text x="${R_X + 14}" y="${cy + 14}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="11" fill="${color}" opacity="0.8">${icon}</text>
   <!-- Label (opacity tier 3) -->
   <text x="${R_X + 14}" y="${cy + 30}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8.5" letter-spacing="0" fill="${c.dim}">${label.toUpperCase()}</text>
 
   <!-- Value (opacity tier 1 — the number is the star) -->
   <text x="${R_X + CARD_W - 10}" y="${cy + 27}" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="22" font-weight="800"
         fill="${color}">${value}</text>`;
   }).join("");
@@ -413,7 +413,7 @@ export default async function handler(req) {
   <!-- Micro accent dot prefix (visual rhyme: badge / footer pill dots) -->
   <circle cx="${x + 10}" cy="${yPos + 13}" r="2.5" fill="${c.accent}" opacity="0.45"/>
   <text x="${x + 20 + (tw - 20) / 2}" y="${yPos + 17}" text-anchor="middle"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="10" fill="${c.tagText}">${t}</text>`;
       })
       .join("");
@@ -456,7 +456,7 @@ export default async function handler(req) {
       return `
   <circle cx="${lx + 5}" cy="${LEGEND_Y - 3}" r="4" fill="${meta.color}"/>
   <text x="${lx + 14}" y="${LEGEND_Y}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="9" fill="${c.dim}">${lang.name} ${lang.pct}%</text>`;
     })
     .join("");
@@ -491,8 +491,8 @@ export default async function handler(req) {
 
   <!-- ── SECTION 1: LIVE LANGUAGE ANALYSIS ────────────────────────────── -->
   <text x="${PAD_X}" y="${SEC1_Y - 10}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">Language Analysis</text>
+        font-family="'Courier New', Consolas, monospace"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">// LANGUAGE ANALYSIS</text>
   <line x1="${PAD_X}" y1="${SEC1_Y - 2}" x2="${W - PAD_X}" y2="${SEC1_Y - 2}"
         stroke="${c.border}" stroke-width="0.5"/>
 
@@ -506,15 +506,15 @@ export default async function handler(req) {
 
   <!-- Column header: left -->
   <text x="${PAD_X}" y="${COLS_Y - 4}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8.5" letter-spacing="0.5" fill="${c.dim}">LANGUAGE</text>
   <text x="${BAR_X}" y="${COLS_Y - 4}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8.5" letter-spacing="0.5" fill="${c.dim}">BYTE DISTRIBUTION</text>
 
   <!-- Column header: right -->
   <text x="${R_X}" y="${COLS_Y - 4}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8.5" letter-spacing="0.5" fill="${c.dim}">REPOSITORY METRICS</text>
 
   <!-- Language bars (left column) -->
@@ -525,23 +525,23 @@ export default async function handler(req) {
 
   <!-- Data source badge (bottom right of sec1, opacity tier 3 — subtle provenance) -->
   <text x="${W - PAD_X}" y="${SEC1_H - 4}" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8" letter-spacing="0" fill="${sourceColor}" opacity="0.65">${sourceLabel}</text>
 
   <!-- ── SECTION 2: TECHNOLOGIES ──────────────────────────────────────── -->
   <line x1="${PAD_X}" y1="${SEC2_Y}" x2="${W - PAD_X}" y2="${SEC2_Y}"
         stroke="${c.border}" stroke-width="0.5"/>
   <text x="${PAD_X}" y="${TAGS_HEAD}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">Technologies</text>
+        font-family="'Courier New', Consolas, monospace"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">// TECHNOLOGIES</text>
   ${tagEls}
 
   <!-- ── SECTION 3: LANGUAGE COMPOSITION ─────────────────────────────── -->
   <line x1="${PAD_X}" y1="${SEC3_Y}" x2="${W - PAD_X}" y2="${SEC3_Y}"
         stroke="${c.border}" stroke-width="0.5"/>
   <text x="${PAD_X}" y="${COMP_HEAD}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">Composition</text>
+        font-family="'Courier New', Consolas, monospace"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">// COMPOSITION</text>
 
   <!-- Segmented composition bar -->
   <rect x="${PAD_X}" y="${COMP_Y}" width="${COMP_W}" height="${COMP_H}" rx="10"

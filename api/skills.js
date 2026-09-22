@@ -156,16 +156,16 @@ export default async function handler(req) {
       return `
   <circle cx="${PAD_X + 6}" cy="${y + 10}" r="3.5" fill="${meta.color}"/>
   <text x="${PAD_X + LABEL_W}" y="${y + 14}" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="11.5" font-weight="700" fill="${c.text}">${lang.name}</text>
   <rect x="${BAR_X}" y="${y + 6}" width="${BAR_W}" height="8" rx="8" fill="${c.border2}"/>
   <rect x="${BAR_X}" y="${y + 6}" width="${fw}" height="8" rx="8" fill="${meta.color}"/>
   <rect x="${BAR_X}" y="${y + 6}" width="${fw}" height="3.5" rx="1.5" fill="white" opacity="${c.shimmer}"/>
   <text x="${PCT_X}" y="${y + 14}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="11" font-weight="700" fill="${meta.color}">${lang.pct}%</text>
   <text x="${PCT_X + 44}" y="${y + 14}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="10" fill="${c.dim}">${fmtBytes(lang.bytes)}</text>`;
     })
     .join("");
@@ -206,7 +206,7 @@ export default async function handler(req) {
         fill="${c.tagBg}" stroke="${c.tagBdr}" stroke-width="0.5"/>
   <circle cx="${x + 12}" cy="${yPos + 13}" r="2" fill="${c.accent}" opacity="0.7"/>
   <text x="${x + 20 + (boxW - 20) / 2}" y="${yPos + 16.5}" text-anchor="middle"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="10.5" font-weight="700" fill="${c.tagText}">${tag}</text>`;
       })
       .join("");
@@ -230,18 +230,18 @@ export default async function handler(req) {
   <rect width="${W}" height="0.5" fill="${c.border}"/>
 
   <text x="${PAD_X}" y="22"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">Automated Language Metrics</text>
   <text x="${W - PAD_X}" y="22" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8" font-weight="700" fill="${c.accent}" opacity="0.8">${source}</text>
   <line x1="${PAD_X}" y1="30" x2="${W - PAD_X}" y2="30" stroke="${c.border}" stroke-width="0.5"/>
 
   <text x="${PAD_X + LABEL_W}" y="44" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8.5" letter-spacing="0" fill="${c.dim}">LANGUAGE</text>
   <text x="${BAR_X}" y="44"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="8.5" letter-spacing="0" fill="${c.dim}">ACCUMULATED VOLUME BYTES</text>
 
   ${barsSVG}
@@ -251,7 +251,7 @@ export default async function handler(req) {
 
   <line x1="${PAD_X}" y1="${SEC2_Y}" x2="${W - PAD_X}" y2="${SEC2_Y}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${PAD_X}" y="${TAGS_HDR}"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">// TECHNOLOGIES &amp; FRAMEWORKS</text>
 
   ${badgesSVG}

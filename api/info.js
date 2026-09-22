@@ -28,7 +28,7 @@ export const INFO = {
   timezone: "UTC+5:30",
 
   /** Open-for-work status text shown in the header badge (keeps green theme) */
-  statusBadge: "OPEN FOR WORK",
+  statusBadge: "🫠 LET ME COOK",
 
   // ── Header Terminal Typing Animation Lines ──────────────────────────────────
   /**

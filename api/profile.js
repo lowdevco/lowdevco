@@ -42,7 +42,7 @@ async function fetchStats() {
         stargazerCount
         languages(first:8,orderBy:{field:SIZE,direction:DESC}){edges{size node{name}}}
       }}
-      contributionsCollection(from:"2026-01-01T00:00:00Z"){
+      contributionsCollection{
         totalCommitContributions totalPullRequestContributions totalIssueContributions
       }
     }}`;
@@ -99,7 +99,7 @@ async function fetchStats() {
         { headers: hdrs },
       ),
       fetch(
-        `https://api.github.com/search/commits?q=author:${USERNAME}+committer-date:2026-01-01..2026-12-31&per_page=1`,
+        `https://api.github.com/search/commits?q=author:${USERNAME}&per_page=1`,
         {
           headers: {
             ...hdrs,
@@ -223,7 +223,7 @@ export default async function handler(req) {
     if (!line.text) return "";
     const y = L_SY + i * L_H;
     return `<text x="${L_X}" y="${y}"
-      font-family="system-ui, -apple-system, sans-serif"
+      font-family="'Courier New', Consolas, monospace"
       font-size="${line.bold ? 12.5 : 11}" font-weight="${line.bold ? "700" : "400"}"
       fill="${line.bold ? c.text : c.muted}">${line.text}</text>`;
   }).join("\n");
@@ -236,9 +236,9 @@ export default async function handler(req) {
 
   // ── RIGHT: GITHUB STATS CARD ─────────────────────────────────────────────
   const STAT_ROWS = [
-    { label: "Commits (2026)", value: commits, icon: "↑" },
-    { label: "Pull Requests", value: prs, icon: "⇄" },
-    { label: "Issues", value: issues, icon: "!" },
+    { label: "Total Commits", value: commits, icon: "↑", color: "#39d353" }, // Green
+    { label: "Pull Requests", value: prs, icon: "⇄", color: "#4493E9" },     // Blue
+    { label: "Total Stars", value: stars, icon: "★", color: "#ffbd2e" },     // Yellow
   ];
 
   const CARD_X = DIVX;
@@ -247,29 +247,29 @@ export default async function handler(req) {
   const S_SY = UND_Y + 14;
   const S_ROW_H = 46;
 
-  const statsSVG = STAT_ROWS.map(({ label, value, icon }, i) => {
+  const statsSVG = STAT_ROWS.map(({ label, value, icon, color }, i) => {
     const ry = S_SY + i * S_ROW_H;
     const isLast = i === STAT_ROWS.length - 1;
     return `
   <!-- stat row ${i} -->
   <text x="${R_X}" y="${ry + 14}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="10" fill="${c.accent}">${icon}</text>
+        font-family="'Courier New', Consolas, monospace"
+        font-size="10" fill="${color}">${icon}</text>
   <text x="${R_X + 16}" y="${ry + 14}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="10" fill="${c.muted}">${label}</text>
+        font-family="'Courier New', Consolas, monospace"
+        font-size="10" fill="${color}">${label}</text>
   <!-- Stat value with optional glow (depth — makes numbers feel luminous in dark) -->
   ${
     dark
       ? `<text x="${R_END}" y="${ry + 14}" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="20" font-weight="700" fill="${c.statVal}"
+        font-family="'Courier New', Consolas, monospace"
+        font-size="20" font-weight="700" fill="${color}"
         filter="url(#numGlow)">${value}</text>`
       : ""
   }
   <text x="${R_END}" y="${ry + 14}" text-anchor="end"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="20" font-weight="700" fill="${c.statVal}">${value}</text>`;
+        font-family="'Courier New', Consolas, monospace"
+        font-size="20" font-weight="700" fill="${color}">${value}</text>`;
   }).join("");
 
   const STATS_BOTTOM = S_SY + STAT_ROWS.length * S_ROW_H;
@@ -282,12 +282,12 @@ export default async function handler(req) {
   <rect x="${R_END - 186}" y="${TAG_Y}" width="88" height="${TAG_H}" rx="10"
         fill="${c.tagABg}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${R_END - 142}" y="${TAG_Y + 13}" text-anchor="middle"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="9.5" font-weight="700" fill="${c.tagAFg}">${INFO.tagBadges.primary}</text>
   <rect x="${R_END - 88}" y="${TAG_Y}" width="${TAG_H}" rx="10"
         fill="${c.tagBBg}" stroke="${c.border}" stroke-width="0.5"/>
   <text x="${R_END - 44}" y="${TAG_Y + 13}" text-anchor="middle"
-        font-family="system-ui, -apple-system, sans-serif"
+        font-family="'Courier New', Consolas, monospace"
         font-size="9.5" font-weight="700" fill="${c.tagBFg}">${INFO.tagBadges.secondary}</text>`;
 
   const H = Math.max(BUL_Y2 + 20, TAG_Y + TAG_H + 20);
@@ -319,8 +319,8 @@ export default async function handler(req) {
   <!-- ── LEFT: ABOUT ──────────────────────────────────────────────────── -->
   <!-- Section label (// prefix — visual rhyme across all cards) -->
   <text x="${L_X}" y="${SEC_Y}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">About</text>
+        font-family="'Courier New', Consolas, monospace"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">// ABOUT</text>
   <line x1="${L_X}" y1="${UND_Y}" x2="${DIVX - 20}" y2="${UND_Y}"
         stroke="${c.border}" stroke-width="0.5"/>
 
@@ -333,11 +333,11 @@ export default async function handler(req) {
   <!-- Dot bullet (visual rhyme — same dot used in badge, footer links, legend) -->
   <circle cx="${L_X + 5}" cy="${BUL_Y1 - 1}" r="2.5" fill="${c.accent}" opacity="0.75"/>
   <text x="${L_X + 16}" y="${BUL_Y1 + 4}"
-        font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${c.dim}">${INFO.bulletList[0] || ""}</text>
+        font-family="'Courier New', Consolas, monospace" font-size="11" fill="${c.dim}">${INFO.bulletList[0] || ""}</text>
 
   <circle cx="${L_X + 5}" cy="${BUL_Y2 - 1}" r="2.5" fill="${c.accent}" opacity="0.75"/>
   <text x="${L_X + 16}" y="${BUL_Y2 + 4}"
-        font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${c.dim}">${INFO.bulletList[1] || ""}</text>
+        font-family="'Courier New', Consolas, monospace" font-size="11" fill="${c.dim}">${INFO.bulletList[1] || ""}</text>
 
   <!-- ── COLUMN DIVIDER (gradient fade — depth) ───────────────────────── -->
   <rect x="${DIVX}" y="${UND_Y}" width="1" height="${H - 12 - UND_Y}"
@@ -350,8 +350,8 @@ export default async function handler(req) {
 
   <!-- Section label -->
   <text x="${R_X}" y="${SEC_Y}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">Github Stats</text>
+        font-family="'Courier New', Consolas, monospace"
+        font-size="9" font-weight="700" letter-spacing="0.5" fill="${c.dim}">// GITHUB STATS</text>
   <line x1="${R_X}" y1="${UND_Y}" x2="${R_END}" y2="${UND_Y}"
         stroke="${c.border}" stroke-width="0.5"/>
 

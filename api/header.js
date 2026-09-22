@@ -47,94 +47,46 @@ export default async function handler(req) {
   const PAD_X = 28;
   const STRIP_W = 3; // left accent strip — visual rhyme anchor across all cards
 
-  // Vertical layout
-  const NAME_Y = BAR_H + 48;
+  // Vertical layout adjustments
+  const NAME_Y = BAR_H + 54;
   const ROLE_Y = NAME_Y + 24;
-  const BADGE_Y = ROLE_Y + 12;
-
-  // Typing row
-  const TYPE_Y = BADGE_Y + 48;
-
-  const lines = INFO.typingLines;
-
-  const duration = 4; // seconds per line
-  const totalDuration = lines.length * duration;
-
-  let clipPaths = "";
-  let linesSVG = "";
-
-  lines.forEach((line, i) => {
-    const startTime = i * duration;
-    const typeTime = 1.5; // time it takes to "type" the sentence
-
-    // Calculate keyframe percentages for SMIL animation
-    const p1 = startTime / totalDuration;
-    const p2 = (startTime + typeTime) / totalDuration;
-    const p3 = (startTime + duration - 0.1) / totalDuration;
-    const p4 = (startTime + duration) / totalDuration;
-
-    // Animates clip path width to reveal text (typing effect)
-    const clipKeyTimes = `0; ${p1}; ${p2}; ${p3}; ${p4}; 1`;
-    const clipValues = `0; 0; 800; 800; 0; 0`; // 800px ensures it clears long text
-
-    // Visibility toggle so only one line shows at a time
-    const opacValues = `0; 0; 1; 1; 0; 0`;
-
-    clipPaths += `
-      <clipPath id="type-clip-${i}">
-        <rect x="${PAD_X}" y="${TYPE_Y - 20}" height="30" width="0">
-          <animate attributeName="width" values="${clipValues}" keyTimes="${clipKeyTimes}" dur="${totalDuration}s" repeatCount="indefinite" />
-        </rect>
-      </clipPath>
-    `;
-
-    // The text element for the typing animation (cursor removed)
-    linesSVG += `
-      <text x="${PAD_X}" y="${TYPE_Y}"
-            font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700"
-            fill="${c.accent}"
-            clip-path="url(#type-clip-${i})"
-            opacity="0">
-        ${escapeXml(line)}
-        <animate attributeName="opacity" values="${opacValues}" keyTimes="${clipKeyTimes}" dur="${totalDuration}s" repeatCount="indefinite" />
-      </text>
-    `;
-  });
+  const STATUS_Y = ROLE_Y + 36;
+  
+  // Calculate a rough underline width based on name length
+  // Courier bold 34px is approx 20px per character.
+  // "Muhammad Irfan" = 14 chars, let's underline "Muhammad " or the whole name?
+  // Let's underline the whole name, or about 280px.
+  const underlineW = (INFO.name.length * 20) - 20;
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
 <defs>
   <clipPath id="bc"><rect x="0" y="0" width="${W}" height="${H + 20}" rx="8"/></clipPath>
-  <linearGradient id="typeBarGrad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="${c.bg}"/>
-    <stop offset="5%" stop-color="${c.bar}"/>
-    <stop offset="100%" stop-color="${c.bg}"/>
-  </linearGradient>
-  ${clipPaths}
 </defs>
 <g clip-path="url(#bc)">
   <rect width="${W}" height="${H}" fill="${c.bg}"/>
   <rect width="${W}" height="${BAR_H}" fill="${c.bar}"/>
   <rect y="${BAR_H}" width="${W}" height="1" fill="${c.border}" opacity="0.5"/>
 
+  <!-- Window controls -->
   <circle cx="20" cy="16" r="5" fill="#ff5f56"/>
   <circle cx="36" cy="16" r="5" fill="#ffbd2e"/>
   <circle cx="52" cy="16" r="5" fill="#27c93f"/>
-  <text x="72" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${c.dim}">${escapeXml(INFO.handle)}</text>
+  
+  <!-- Terminal title -->
+  <text x="72" y="20" font-family="'Courier New', Consolas, monospace" font-size="11" fill="${c.dim}">~/${escapeXml(INFO.handle)} — zsh</text>
 
-  <text x="${PAD_X}" y="${NAME_Y}" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="bold" fill="${c.text}">${escapeXml(INFO.name)}</text>
-  <text x="${PAD_X}" y="${ROLE_Y}" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="${c.muted}">${escapeXml(INFO.role)} · ${escapeXml(INFO.skillsSubtitle)} · ${escapeXml(INFO.location)} · ${escapeXml(INFO.timezone)}</text>
+  <!-- Name and Underline -->
+  <text x="${PAD_X}" y="${NAME_Y}" font-family="'Courier New', Consolas, monospace" font-size="34" font-weight="bold" fill="${c.text}">${escapeXml(INFO.name)}</text>
+  <rect x="${PAD_X}" y="${NAME_Y + 8}" width="${underlineW}" height="2" fill="${c.accent}" opacity="0.8"/>
+  
+  <!-- Role / Subtitle -->
+  <text x="${PAD_X}" y="${ROLE_Y}" font-family="'Courier New', Consolas, monospace" font-size="11" font-weight="700" fill="${c.muted}">${escapeXml(INFO.role)} · ${escapeXml(INFO.skillsSubtitle)} · ${escapeXml(INFO.location)} · ${escapeXml(INFO.timezone)}</text>
 
-  <rect x="${PAD_X}" y="${BADGE_Y}" width="122" height="18" rx="9" fill="${c.badgeBg}"/>
-  <circle cx="${PAD_X + 13}" cy="${BADGE_Y + 9}" r="3.5" fill="${c.badgeFg}"/>
-  <text x="${PAD_X + 25}" y="${BADGE_Y + 12.5}"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="9.5" font-weight="700"
-        fill="${c.badgeFg}" letter-spacing="0.5">${escapeXml(INFO.statusBadge)}</text>
-
-  <rect x="0" y="${TYPE_Y - 24}" width="${W}" height="40" fill="url(#typeBarGrad)"/>
-  <line x1="0" y1="${TYPE_Y - 24}" x2="${W}" y2="${TYPE_Y - 24}" stroke="${c.border}" stroke-width="0.5" opacity="0.8"/>
-
-  ${linesSVG}
+  <!-- Status / Let me cook (simple text instead of badge) -->
+  <text x="${PAD_X}" y="${STATUS_Y}"
+        font-family="'Courier New', Consolas, monospace"
+        font-size="11" font-weight="700"
+        fill="${c.text}">${escapeXml(INFO.statusBadge)}</text>
 
   <rect x="0" y="0" width="${STRIP_W}" height="${H}" fill="${c.accent}" opacity="0.7"/>
   

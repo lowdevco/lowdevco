@@ -17,10 +17,12 @@
     <source media="(prefers-color-scheme: dark)" srcset="./public/lowdevco-dark.gif">
     <source media="(prefers-color-scheme: light)" srcset="./public/lowdevco-light.gif">
     <img src="./public/lowdevco-dark.gif" alt="Lowdevco Coding" width="900">
-  </picture><picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://lowdevco-self.vercel.app/api/footer?theme=dark&amp;v=5">
-    <source media="(prefers-color-scheme: light)" srcset="https://lowdevco-self.vercel.app/api/footer?theme=light&amp;v=5">
-    <img src="https://lowdevco-self.vercel.app/api/footer?theme=dark&amp;v=5" alt="Footer &amp; Links" width="900">
   </picture>
-
+  <a href="https://lowdevco.vercel.app/" target="_blank">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://lowdevco-self.vercel.app/api/footer?theme=dark&amp;v=5">
+      <source media="(prefers-color-scheme: light)" srcset="https://lowdevco-self.vercel.app/api/footer?theme=light&amp;v=5">
+      <img src="https://lowdevco-self.vercel.app/api/footer?theme=dark&amp;v=5" alt="Footer &amp; Links" width="900">
+    </picture>
+  </a>
 </div>
