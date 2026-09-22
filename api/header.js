@@ -48,19 +48,62 @@ export default async function handler(req) {
   const STRIP_W = 3; // left accent strip — visual rhyme anchor across all cards
 
   // Vertical layout adjustments
-  const NAME_Y = BAR_H + 54;
-  const ROLE_Y = NAME_Y + 24;
-  const STATUS_Y = ROLE_Y + 36;
+  const NAME_Y = BAR_H + 46;
+  const ROLE_Y = NAME_Y + 22;
+  const STATUS_Y = ROLE_Y + 28;
+  const TYPE_Y = STATUS_Y + 40;
   
   // Calculate a rough underline width based on name length
-  // Courier bold 34px is approx 20px per character.
-  // "Muhammad Irfan" = 14 chars, let's underline "Muhammad " or the whole name?
-  // Let's underline the whole name, or about 280px.
   const underlineW = (INFO.name.length * 20) - 20;
+
+  const lines = INFO.typingLines;
+  const duration = 4; // seconds per line
+  const totalDuration = lines.length * duration;
+
+  let clipPaths = "";
+  let linesSVG = "";
+
+  lines.forEach((line, i) => {
+    const startTime = i * duration;
+    const typeTime = 1.5; 
+    const p1 = startTime / totalDuration;
+    const p2 = (startTime + typeTime) / totalDuration;
+    const p3 = (startTime + duration - 0.1) / totalDuration;
+    const p4 = (startTime + duration) / totalDuration;
+
+    const clipKeyTimes = `0; ${p1}; ${p2}; ${p3}; ${p4}; 1`;
+    const clipValues = `0; 0; 800; 800; 0; 0`; 
+    const opacValues = `0; 0; 1; 1; 0; 0`;
+
+    clipPaths += `
+      <clipPath id="type-clip-${i}">
+        <rect x="${PAD_X}" y="${TYPE_Y - 20}" height="30" width="0">
+          <animate attributeName="width" values="${clipValues}" keyTimes="${clipKeyTimes}" dur="${totalDuration}s" repeatCount="indefinite" />
+        </rect>
+      </clipPath>
+    `;
+
+    linesSVG += `
+      <text x="${PAD_X}" y="${TYPE_Y}"
+            font-family="'Courier New', Consolas, monospace" font-size="13" font-weight="700"
+            fill="${c.accent}"
+            clip-path="url(#type-clip-${i})"
+            opacity="0">
+        ${escapeXml(line)}
+        <animate attributeName="opacity" values="${opacValues}" keyTimes="${clipKeyTimes}" dur="${totalDuration}s" repeatCount="indefinite" />
+      </text>
+    `;
+  });
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
 <defs>
   <clipPath id="bc"><rect x="0" y="0" width="${W}" height="${H + 20}" rx="8"/></clipPath>
+  <linearGradient id="typeBarGrad" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="${c.bg}"/>
+    <stop offset="5%" stop-color="${c.bar}"/>
+    <stop offset="100%" stop-color="${c.bg}"/>
+  </linearGradient>
+  ${clipPaths}
 </defs>
 <g clip-path="url(#bc)">
   <rect width="${W}" height="${H}" fill="${c.bg}"/>
@@ -87,6 +130,11 @@ export default async function handler(req) {
         font-family="'Courier New', Consolas, monospace"
         font-size="11" font-weight="700"
         fill="${c.text}">${escapeXml(INFO.statusBadge)}</text>
+
+  <!-- Typing Animation Area -->
+  <rect x="0" y="${TYPE_Y - 22}" width="${W}" height="36" fill="url(#typeBarGrad)"/>
+  <line x1="0" y1="${TYPE_Y - 22}" x2="${W}" y2="${TYPE_Y - 22}" stroke="${c.border}" stroke-width="0.5" opacity="0.8"/>
+  ${linesSVG}
 
   <rect x="0" y="0" width="${STRIP_W}" height="${H}" fill="${c.accent}" opacity="0.7"/>
   

@@ -235,17 +235,20 @@ export default async function handler(req) {
   const BUL_Y2 = BUL_Y1 + 16;
 
   // ── RIGHT: GITHUB STATS CARD ─────────────────────────────────────────────
+  const topLang = langs && langs.length > 0 ? langs[0].name : "N/A";
+  
   const STAT_ROWS = [
+    { label: "Total Stars", value: stars, icon: "★", color: "#ffbd2e" },     // Yellow
     { label: "Total Commits", value: commits, icon: "↑", color: "#39d353" }, // Green
     { label: "Pull Requests", value: prs, icon: "⇄", color: "#4493E9" },     // Blue
-    { label: "Total Stars", value: stars, icon: "★", color: "#ffbd2e" },     // Yellow
+    { label: "Top Language", value: topLang, icon: "{}", color: "#c084fc" }, // Purple
   ];
 
   const CARD_X = DIVX;
   const CARD_Y = 0;
   const CARD_W = W - CARD_X;
   const S_SY = UND_Y + 14;
-  const S_ROW_H = 46;
+  const S_ROW_H = 43; 
 
   const statsSVG = STAT_ROWS.map(({ label, value, icon, color }, i) => {
     const ry = S_SY + i * S_ROW_H;
