@@ -9,6 +9,7 @@ const FALLBACK = {
   commits: 15,
   prs: 2,
   issues: 0,
+  recentRepo: "N/A",
   langs: [
     { name: "Python", pct: 55 },
     { name: "JavaScript", pct: 25 },
@@ -38,7 +39,8 @@ async function fetchStats() {
   // ── GraphQL (authenticated) ────────────────────────────────────────────────
   if (token) {
     const q = `{user(login:"${USERNAME}"){
-      repositories(first:100,ownerAffiliations:OWNER,isFork:false){nodes{
+      repositories(first:100,ownerAffiliations:OWNER,isFork:false,orderBy:{field:PUSHED_AT,direction:DESC}){nodes{
+        name
         stargazerCount
         languages(first:8,orderBy:{field:SIZE,direction:DESC}){edges{size node{name}}}
       }}
@@ -71,9 +73,11 @@ async function fetchStats() {
         .sort(([, a], [, b]) => b - a)
         .slice(0, 4)
         .map(([name, b]) => ({ name, pct: Math.round((b / tot) * 100) }));
+      const recentRepo = u.repositories.nodes.length > 0 ? u.repositories.nodes[0].name : "N/A";
       return {
         stars,
         langs,
+        recentRepo,
         commits: u.contributionsCollection.totalCommitContributions,
         prs: u.contributionsCollection.totalPullRequestContributions,
         issues: u.contributionsCollection.totalIssueContributions,
@@ -87,7 +91,7 @@ async function fetchStats() {
   try {
     const [rR, pR, iR, cR] = await Promise.allSettled([
       fetch(
-        `https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner`,
+        `https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner&sort=pushed&direction=desc`,
         { headers: hdrs },
       ),
       fetch(
@@ -108,11 +112,12 @@ async function fetchStats() {
         },
       ),
     ]);
-    let { stars, langs, prs, issues, commits } = FALLBACK;
+    let { stars, langs, prs, issues, commits, recentRepo } = FALLBACK;
 
     if (rR.status === "fulfilled" && rR.value.ok) {
       const repos = await rR.value.json();
       if (Array.isArray(repos)) {
+        if (repos.length > 0) recentRepo = repos[0].name;
         stars = repos.reduce((s, r) => s + (r.stargazers_count || 0), 0);
         const lc = {};
         repos.forEach((r) => {
@@ -146,7 +151,7 @@ async function fetchStats() {
       const d = await cR.value.json();
       commits = d.total_count ?? commits;
     }
-    return { stars, commits, prs, issues, langs };
+    return { stars, commits, prs, issues, langs, recentRepo };
   } catch {
     return FALLBACK;
   }
@@ -191,7 +196,7 @@ export default async function handler(req) {
       };
 
   const stats = await fetchStats();
-  const { stars, commits, prs, issues, langs } = stats;
+  const { stars, commits, prs, issues, langs, recentRepo } = stats;
 
   // ── Layout constants ────────────────────────────────────────────────────────
   const W = 900;
@@ -235,13 +240,11 @@ export default async function handler(req) {
   const BUL_Y2 = BUL_Y1 + 16;
 
   // ── RIGHT: GITHUB STATS CARD ─────────────────────────────────────────────
-  const topLang = langs && langs.length > 0 ? langs[0].name : "N/A";
-  
   const STAT_ROWS = [
     { label: "Total Stars", value: stars, icon: "★", color: "#ffbd2e" },     // Yellow
     { label: "Total Commits", value: commits, icon: "↑", color: "#39d353" }, // Green
     { label: "Pull Requests", value: prs, icon: "⇄", color: "#4493E9" },     // Blue
-    { label: "Top Language", value: topLang, icon: "{}", color: "#c084fc" }, // Purple
+    { label: "Recent Commit", value: recentRepo, icon: "@", color: "#c084fc" }, // Purple
   ];
 
   const CARD_X = DIVX;
